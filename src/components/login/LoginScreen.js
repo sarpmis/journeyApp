@@ -31,7 +31,7 @@ export default class App extends React.Component {
           <Row> 
             <View style={styles.loginInfoContainer}>
               <Text style={styles.loginInfoText}>
-                This app is designed for you. Journey will be your guide.
+                THIS IS A DIFFERENT PAGE
               </Text> 
             </View>
           </Row>
