@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { NativeRouter, Switch, Route } from "react-router-native";
 
-// import { Col, Row, Grid } from "react-native-easy-grid";
+
+import WelcomeScreen from './src/components/login/WelcomeScreen';
+import LoginScreen from './src/components/login/LoginScreen';
+
+// SETTING GLOBAL TEXT STYLE
 import {setCustomText} from 'react-native-global-props';
-
-import LoginButton from './src/components/login/LoginButton';
-import LoginLogo from './src/components/login/LoginLogo';
 
 const globalTextProps = {
   style: {
@@ -20,60 +22,27 @@ const globalTextProps = {
 
 setCustomText(globalTextProps);
 
+// ENTRY POINT OF APP
 export default class App extends React.Component {
   render() {
     return (
-      <ImageBackground 
-        source={require('..\\assets\\login-background.png')} 
-        style={styles.backgroundImage}>
-        {/* <Grid >
-          <Row> <LoginLogo/> </Row>
-          <Row> 
-            <View style={styles.loginInfoContainer}>
-              <Text style={styles.loginInfoText}>
-                This app is designed for you. Journey will be your guide.
-              </Text> 
-            </View>
-          </Row>
-          <Row> <LoginButton /> </Row>
-        </Grid> */}
-        <View style={{flex: 1}}>
-          <View style={styles.loginScreenRowContainer}>
-            <LoginLogo/>
-          </View>
-          <View style={styles.loginScreenRowContainer}>
-            <View style={styles.loginInfoContainer}>
-                <Text style={styles.loginInfoText}>
-                  This app is designed for you. Journey will be your guide.
-                </Text> 
-            </View>
-          </View>
-          <View style={styles.loginScreenRowContainer}>
-            <LoginButton />
-          </View>
+      <NativeRouter>
+        <View style={styles.container}>
+          <Switch>
+            <Route exact path="/" component={WelcomeScreen} />
+            <Route exact path="/Login" component={LoginScreen} />
+          </Switch>
         </View>
-      </ImageBackground>
+      </NativeRouter>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  backgroundImage: {
+  container: {
     flex: 1,
-  },
-  loginInfoText: {
-    width:'75%',
-    opacity: 0.8,
-    textAlign: 'center',
-  },
-  loginInfoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  loginScreenRowContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });

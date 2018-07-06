@@ -1,16 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Button } from 'react-native';
 
 import LoginButton from './LoginButton';
 import LoginLogo from './LoginLogo';
-import LoginHeader from './LoginHeader'
 
-const LoginScreen = ({ history }) => (
+const WelcomeScreen = ({ history }) => (
   <ImageBackground 
     source={require('..\\assets\\login-background.png')} 
     style={styles.backgroundImage}>
-    <LoginHeader />
-    <View style={{flex: 1, borderColor: 'magenta', borderWidth: 1}}>
+    <View style={{flex: 1}}>
       <View style={styles.loginScreenRowContainer}>
         <LoginLogo/>
       </View>
@@ -25,7 +23,6 @@ const LoginScreen = ({ history }) => (
         <LoginButton />
       </View>
     </View>
-    
   </ImageBackground>
 );
 
@@ -51,4 +48,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginScreen;
+export default WelcomeScreen;
