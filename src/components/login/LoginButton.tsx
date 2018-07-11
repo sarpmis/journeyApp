@@ -1,17 +1,17 @@
-import React from 'react';
-import { 
+import React from "react";
+import {
   Dimensions,
-  TouchableOpacity,
   StyleSheet,
   Text,
-} from 'react-native';
-import { CallbackFunction } from "../../config/Types"
+  TouchableOpacity,
+} from "react-native";
+import { CallbackFunction } from "../../config/Types";
 
 interface Props {
-  onPressFunction :CallbackFunction;
-  textColor :string;
-  buttonText :string;
-  extraStyle :any;
+  onPressFunction: CallbackFunction;
+  textColor: string;
+  buttonText: string;
+  extraStyle: any;
 }
 
 export default class LoginButton  extends React.Component<Props> {
@@ -26,24 +26,24 @@ export default class LoginButton  extends React.Component<Props> {
           </Text>
       </TouchableOpacity>
     );
-  };
+  }
 }
 
 // STYLING
-const DEVICE_WIDTH = Dimensions.get('window').width;
+const DEVICE_WIDTH = Dimensions.get("window").width;
 const MARGIN = 30;
 
 const styles = StyleSheet.create({
   loginButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
     borderRadius: 20,
-    zIndex: 100,
-    margin: MARGIN,
-    width: DEVICE_WIDTH - 2*MARGIN,
     height: 40,
+    justifyContent: "center",
+    margin: MARGIN,
+    width: DEVICE_WIDTH - 2 * MARGIN,
+    zIndex: 100,
   },
-  loginText:{
+  loginText: {
     fontSize: 14,
   },
 });
