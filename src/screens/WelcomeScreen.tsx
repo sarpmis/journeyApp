@@ -1,24 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Button, TouchableOpacity } from 'react-native';
+import React from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
-import LoginButton from '../components/login/LoginButton';
-import LoginLogo from '../components/login/LoginLogo';
-import { NavigationScreenProps } from 'react-navigation';
+// @ts-ignore
+import LoginButton from "@src/components/login/LoginButton";
+// @ts-ignore
+import LoginLogo from "@src/components/login/LoginLogo";
+// @ts-ignore
+import { logIn } from "@src/config/FBLogin";
+
+import { NavigationScreenProps } from "react-navigation";
 
 class WelcomeScreen extends React.Component<NavigationScreenProps> {
 
   static navigationOptions = {
     tabBarVisible: false,
-  }
+  };
 
   goToLoginPage = () => {
-    this.props.navigation.navigate('login');
+    this.props.navigation.navigate("login");
   }
 
-  render() { 
+  render() {
     return (
-      <ImageBackground 
-        source={require('..\\assets\\login-background.png')} 
+      <ImageBackground
+        source={require("..\\assets\\login-background.png")}
         style={styles.backgroundImage}>
         <View style={{flex: 1}}>
           <View style={styles.loginScreenRowContainer}>
@@ -28,56 +38,57 @@ class WelcomeScreen extends React.Component<NavigationScreenProps> {
             <View style={styles.loginInfoContainer}>
                 <Text style={styles.loginInfoText}>
                   This app is designed for you. Journey will be your guide.
-                </Text> 
+                </Text>
             </View>
           </View>
           <View style={styles.loginScreenRowContainer}>
             <View style={styles.loginButtonContainer}>
-              <LoginButton 
-                onPressFunction={this.goToLoginPage} 
-                extraStyle={{backgroundColor: '#5E50E4', marginBottom: 15}}
+              <LoginButton
+                onPressFunction={logIn}
+                extraStyle={{backgroundColor: "#5E50E4", marginBottom: 15}}
                 textColor={"#FFFFFF"}
-                buttonText="visitor login" />
-              <Text style={[styles.loginInfoText, {opacity: 0.6, fontWeight: '500'}]}>
+                buttonText="login with facebook" />
+              <Text style={[styles.loginInfoText, {opacity: 0.6, fontWeight: "500"}]}>
                   already a member?
               </Text>
-              <LoginButton 
-                onPressFunction={this.goToLoginPage} 
-                extraStyle={{backgroundColor: '#FFFFFF', marginTop: 15}}
+              <LoginButton
+                onPressFunction={this.goToLoginPage}
+                extraStyle={{backgroundColor: "#FFFFFF", marginTop: 15}}
                 textColor={"#363636"}
                 buttonText="login" />
             </View>
           </View>
         </View>
       </ImageBackground>
-  )}
+    );
+  }
 }
 
-//STYLING
+// STYLING
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    width: '100%',
-  },
-  loginInfoText: {
-    width:'75%',
-    opacity: 0.8,
-    textAlign: 'center',
-  },
-  loginInfoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  loginScreenRowContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "100%",
   },
   loginButtonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%'
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  loginInfoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  loginInfoText: {
+    opacity: 0.8,
+    textAlign: "center",
+    width: "75%",
+  },
+  loginScreenRowContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
 });
 

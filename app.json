@@ -1,5 +1,8 @@
 {
   "expo": {
+    "facebookScheme": "fb671743613165732",
+    "facebookAppId": "671743613165732",
+    "facebookDisplayName": "Journey",
     "sdkVersion": "27.0.0",
     "packagerOpts": {
       "sourceExts": ["ts", "tsx"],

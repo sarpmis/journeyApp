@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   loginScreenLogo: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
 });
 

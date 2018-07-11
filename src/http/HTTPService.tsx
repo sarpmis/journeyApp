@@ -1,5 +1,7 @@
+// @ts-ignore
+import { conf } from "@src/config/Configuration";
+
 // import axios from 'axios';
-import { conf } from "@src/config/configuration";
 
 // interface RequestOptions {
 //     success: Function;
@@ -52,4 +54,4 @@ export default class HTTPService {
     }
 }
 
-export const endpoint = new HTTPService();
+// export const endpoint = new HTTPService();
