@@ -25,21 +25,29 @@ export default class HTTPService {
     //     })
     //     .catch((error) => options.error(error));
     // }
+
     static checkUser(username: string, password: string) {
-        let returnElement: any = null;
-        fetch(conf.users.getAll)
-        .then((response) => response.json())
-        .then((responseJson) => {
-            responseJson.forEach((element: any) => {
-                if ((username === element.username) && (password === element.password)) {
-                    console.log("found");
-                    returnElement = element;
+        // new Promise( /* executor */ function(resolve, reject) { ... } );
+        return new Promise ((resolve, reject) => {
+            let returnElement: any = null;
+            fetch(conf.users.getAll)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                responseJson.forEach((element: any) => {
+                    if ((username === element.username)) {
+                        console.log("found");
+                        returnElement = element;
+                    }
+                });
+                if (returnElement === null) {
+                    reject("no such user");
+                } else {
+                    resolve(returnElement);
                 }
+            })
+            .catch((error) => {
+                console.error(error);
             });
-            return returnElement;
-        })
-        .catch((error) => {
-           console.error(error);
         });
     }
 }

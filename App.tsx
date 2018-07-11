@@ -1,6 +1,7 @@
 import { MainNavigator } from "./src/config/Router";
 
 // SETTING GLOBAL TEXT STYLE
+// @ts-ignore
 import {setCustomText} from "react-native-global-props";
 
 const globalTextProps = {

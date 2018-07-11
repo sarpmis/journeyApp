@@ -1,3 +1,5 @@
+// @ts-ignore
+import service from "@src/http/HTTPService";
 import React from "react";
 import {
     Animated,
@@ -8,18 +10,18 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
-import { CallbackFunction } from "../../config/Types";
 
 interface Props {
-  onPressFunction: CallbackFunction;
+  onPressFunction: any;
   textColor: string;
   buttonText: string;
   extraStyle: any;
-  animate: boolean;
+  navigation: any;
 }
 
 interface State {
     isLoading: boolean;
+    errorLoading: boolean;
 }
 
 export default class LoginButton  extends React.Component<Props, State> {
@@ -27,6 +29,7 @@ export default class LoginButton  extends React.Component<Props, State> {
     constructor(props: any) {
         super(props);
         this.state = {
+            errorLoading: false,
             isLoading: false,
         };
 
@@ -37,16 +40,20 @@ export default class LoginButton  extends React.Component<Props, State> {
     onPress() {
         if (this.state.isLoading) { return; }
 
-        this.props.onPressFunction();
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: true, errorLoading: false });
         Animated.timing(this.buttonAnimated, {
             duration: 200,
             easing: Easing.linear,
             toValue: 1,
         }).start();
+        service.checkUser(this.props.onPressFunction().username, "no password checks yet")
+            .then((user: any) => this.props.navigation.navigate("manage"))
+            .catch((error: any) => {
+                this.setState({ errorLoading: true, isLoading: false });
+                this.buttonAnimated.setValue(0);
+            });
 
         setTimeout(() => {
-            // console.log("timeout");
             this.setState({isLoading: false});
             this.buttonAnimated.setValue(0);
         }, 2300);
@@ -59,22 +66,23 @@ export default class LoginButton  extends React.Component<Props, State> {
         });
 
         return(
-            // <View style={styles.buttonContainer}>
-                <Animated.View style={[{width: changeWidth}]}>
-                    <TouchableOpacity
-                        style={[styles.loginButton, this.props.extraStyle]}
-                        onPress={this.onPress}
-                        activeOpacity={1}>
-                        {this.state.isLoading ? (
-                            <Image source={require("../../../assets/loading.gif")} style={styles.image} />
-                        ) : (
-                            <Text style={[styles.loginText, {color: this.props.textColor}]}>
-                                {this.props.buttonText}
-                            </Text>
-                        )}
-                    </TouchableOpacity>
-                </Animated.View>
-            // </View>
+            <Animated.View style={[{width: changeWidth}]}>
+                <TouchableOpacity
+                    style={[styles.loginButton, this.props.extraStyle,
+                        this.state.errorLoading ?
+                            {backgroundColor: "red"} : {backgroundColor: "white"}]}
+                    onPress={this.onPress}
+                    activeOpacity={1}>
+                    {this.state.isLoading ? (
+                        <Image source={require("../../../assets/loading.gif")} style={styles.image} />
+                    ) : (
+                        <Text style={[styles.loginText,
+                            this.state.errorLoading ? {color: "white"} : {color: this.props.textColor}]}>
+                            {this.props.buttonText}
+                        </Text>
+                    )}
+                </TouchableOpacity>
+            </Animated.View>
         );
     }
 }
@@ -95,15 +103,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "100%",
         zIndex: 100,
-        // margin: MARGIN,
-        // width: DEVICE_WIDTH - 2*MARGIN,
-        },
-    loginText:{
+    },
+    loginText: {
         fontSize: 14,
     },
-    // buttonContainer: {
-    //     flex: 1,
-    //     alignItems: 'center',
-    //     justifyContent: 'flex-start',
-    // },
 });

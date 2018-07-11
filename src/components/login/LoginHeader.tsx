@@ -22,7 +22,6 @@ const LoginHeader: React.SFC<LoginHeaderProps> = ({ navigation }) => (
             <Text style={{fontSize: 18, lineHeight: 25, opacity: 0.8}}>Login</Text>
         </View>
         <View style={styles.headerRightContainer}>
-            {/* <Text>Ekstra buton?</Text> */}
         </View>
     </View>
 );

@@ -1,8 +1,8 @@
 // @ts-ignore
 import { Ionicons } from "@expo/vector-icons";
-import HTTPService from "@src/http/HTTPService";
 // @ts-ignore
 import LoginButtonAnimated from "@src/components/login/LoginButtonAnimated";
+
 import * as React from "react";
 import {
     Dimensions,
@@ -13,9 +13,9 @@ import {
 
 // import {endpoint} from "../../http/HTTPService";
 
-// interface Props {
-
-// }
+interface Props {
+    navigation: any;
+}
 
 interface State {
     username: string;
@@ -23,7 +23,7 @@ interface State {
     buttonActive: boolean;
 }
 
-export default class LoginInput extends React.Component<{}, State> {
+export default class LoginInput extends React.Component<Props, State> {
 
     constructor(props: any) {
         super(props);
@@ -45,9 +45,13 @@ export default class LoginInput extends React.Component<{}, State> {
         this.setState({ password: input });
     }
 
-    onSubmit() {
-        // console.log(this.state.username + " " + this.state.password);
-        HTTPService.checkUser(this.state.username, this.state.password);
+    // Send credentials to the login button.
+    onSubmit(): any {
+        return {
+            username: this.state.username,
+        };
+            // service.checkUser(this.state.username, this.state.password);
+            // .then((user: any) => this.props.navigation.navigate("manage"));
     }
 
     render(): JSX.Element {
@@ -80,9 +84,11 @@ export default class LoginInput extends React.Component<{}, State> {
                     textColor={"#363636"}
                     buttonText  ="login"
                     animate={this.state.buttonActive}
+                    navigation={this.props.navigation}
                     />
             </View>
-    )}
+        );
+    }
 }
 
 /****************************** STYLING ******************************/

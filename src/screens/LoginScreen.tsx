@@ -48,14 +48,14 @@ class LoginScreen extends React.Component<NavigationScreenProps> {
                   </Text>
                 </View>
                 <View style={[styles.loginScreenRow, {paddingBottom: 50}]}>
-                  <LoginInput />
+                  <LoginInput navigation={ this.props.navigation } />
                 </View>
               </View>
             </KeyboardAvoidingView>
           </View>
         </TouchableWithoutFeedback>
       </ImageBackground>
-    )
+    );
   }
 }
 
