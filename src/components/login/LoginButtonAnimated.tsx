@@ -41,17 +41,21 @@ export default class LoginButton  extends React.Component<Props, State> {
         if (this.state.isLoading) { return; }
 
         this.setState({ isLoading: true, errorLoading: false });
+
         Animated.timing(this.buttonAnimated, {
             duration: 200,
             easing: Easing.linear,
             toValue: 1,
         }).start();
-        service.checkUser(this.props.onPressFunction().username, "no password checks yet")
-            .then((user: any) => this.props.navigation.navigate("manage"))
-            .catch((error: any) => {
-                this.setState({ errorLoading: true, isLoading: false });
-                this.buttonAnimated.setValue(0);
-            });
+
+        setTimeout(() => {
+            service.checkUser(this.props.onPressFunction().username, "no password checks yet")
+                .then((user: any) => this.props.navigation.navigate("manage"))
+                .catch((error: any) => {
+                    this.setState({ errorLoading: true, isLoading: false });
+                    this.buttonAnimated.setValue(0);
+                });
+        }, 500);
 
         setTimeout(() => {
             this.setState({isLoading: false});

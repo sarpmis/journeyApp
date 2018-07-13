@@ -10,6 +10,7 @@ const globalTextProps = {
     fontFamily: "Avenir",
     fontSize: 12,
     fontWeight: "900",
+    // justifyContent: "center",
     lineHeight: 16,
     textAlign: "center",
   },
