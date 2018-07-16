@@ -4,6 +4,12 @@ import { MainNavigator } from "./src/config/Router";
 // @ts-ignore
 import {setCustomText} from "react-native-global-props";
 
+import React from 'react';
+import { Provider } from 'react-redux';
+
+import store from './src/store'; //Import the store
+import Home from './src/Comp' //Import the component file
+
 const globalTextProps = {
   style: {
     color: "#FFFFFF",
@@ -19,4 +25,15 @@ const globalTextProps = {
 setCustomText(globalTextProps);
 
 // ENTRY POINT OF APP
-export default MainNavigator;
+
+// export default MainNavigator;
+
+export default class App extends React.Component {
+  render() {
+      return (
+          <Provider store={store}>
+              <Home />
+          </Provider>
+      );
+  }
+}

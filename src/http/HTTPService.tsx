@@ -37,7 +37,7 @@ export default class HTTPService {
             .then((responseJson) => {
                 responseJson.forEach((element: any) => {
                     if ((username === element.username)) {
-                        console.log("found");
+                        // console.log("found");
                         returnElement = element;
                     }
                 });
