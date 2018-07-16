@@ -2,7 +2,6 @@
 import { Ionicons } from "@expo/vector-icons";
 // @ts-ignore
 import LoginButtonAnimated from "@src/components/login/LoginButtonAnimated";
-
 import * as React from "react";
 import {
     Dimensions,
@@ -10,27 +9,30 @@ import {
     TextInput,
     View,
 } from "react-native";
-
-// import {endpoint} from "../../http/HTTPService";
+// Redux
+import * as Actions from "@src/redux/actions/action";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+// Custom types
+import * as Types from "@config/Types";
 
 interface Props {
     navigation: any;
+    username: string;
+    setUsername: Types.GenericFunction;
+    setPassword: Types.GenericFunction;
 }
 
 interface State {
-    username: string;
-    password: string;
     buttonActive: boolean;
 }
 
-export default class LoginInput extends React.Component<Props, State> {
+class LoginInput extends React.Component<Props, State> {
 
     constructor(props: any) {
         super(props);
         this.state = {
             buttonActive: false,
-            password: "",
-            username: "",
         };
         this.onUsernameChange = this.onUsernameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -38,17 +40,18 @@ export default class LoginInput extends React.Component<Props, State> {
     }
 
     onUsernameChange(input: string): void {
-        this.setState({ username: input });
+        // this.setState({ username: input });
+        this.props.setUsername(input);
     }
 
     onPasswordChange(input: string): void {
-        this.setState({ password: input });
+        this.props.setPassword(input);
     }
 
     // Send credentials to the login button.
     onSubmit(): any {
         return {
-            username: this.state.username,
+            username: this.props.username,
         };
             // service.checkUser(this.state.username, this.state.password);
             // .then((user: any) => this.props.navigation.navigate("manage"));
@@ -133,3 +136,25 @@ const styles = StyleSheet.create({
         // borderColor: 'green', borderWidth: 1
     },
 });
+
+/****************************** REDUX BOILERPLATE ******************************/
+
+// Allows us to call use objects in state as props
+function mapStateToProps(state: any, props: any) {
+    return {
+        loading: state.loginReducer.loading,
+        data: state.loginReducer.data,
+        username: state.loginReducer.username,
+        password: state.loginReducer.password,
+    };
+}
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
+function mapDispatchToProps(dispatch: any) {
+    return bindActionCreators(Actions, dispatch);
+}
+
+// Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)(LoginInput);

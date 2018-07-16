@@ -4,7 +4,7 @@ import ManageScreen from "../screens/ManageScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 
 export const MainNavigator = createBottomTabNavigator({
-  home: { screen: WelcomeScreen },
+  home: { screen: ManageScreen },
   login: { screen: LoginScreen },
   manage: { screen: ManageScreen },
 });

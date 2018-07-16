@@ -12,6 +12,11 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "strict": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@src/*": ["src/*"],
+    //   "@config/*": ["src/config/*"],
+    // }
   }
 }
