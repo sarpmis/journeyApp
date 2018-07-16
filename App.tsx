@@ -1,14 +1,11 @@
+import React from "react";
+import { Provider } from "react-redux";
+// @ts-ignore
+import store from "@redux/store";
 import { MainNavigator } from "./src/config/Router";
-
-// SETTING GLOBAL TEXT STYLE
+// for global styling
 // @ts-ignore
 import {setCustomText} from "react-native-global-props";
-
-import React from 'react';
-import { Provider } from 'react-redux';
-
-import store from './src/store'; //Import the store
-import Home from './src/Comp' //Import the component file
 
 const globalTextProps = {
   style: {
