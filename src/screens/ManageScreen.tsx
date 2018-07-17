@@ -25,7 +25,9 @@ class ManageScreen extends React.Component<Props> {
             //     <Portrait width={200} height={300} />
             // </View>
             <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                <PortraitScrollView data={ DummyPeople.list } portraitWidth={100} />
+                <PortraitScrollView 
+                    data={ DummyPeople.list } 
+                    portraitWidth={100} />
             </View>
         );
     }

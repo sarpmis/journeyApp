@@ -4,6 +4,7 @@ import {
     Text,
     View,
     Dimensions,
+    StyleSheet,
 } from "react-native";
 import Portrait from "./Portrait";
 import { People } from "./People";
@@ -11,55 +12,116 @@ import { People } from "./People";
 interface Props {
     data: People[];
     portraitWidth: number;
-}
-
-interface State {
-    middleIndex: number;
+    startingIndex?: number;
 }
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
-export default class PortraitScrollView extends React.Component <Props, State> {
+export default class PortraitScrollView extends React.Component <Props> {
+    private extraSpaceWidth: number;
+    private children: any;
+    private middleIndex: number;
+    private scrollView: ScrollView | null;
 
-    constructor(props: any) {
+    constructor(props: any){
         super(props);
+        // initial values
+        this.scrollView = null;
+        this.middleIndex = 0;
+        this.children = [];
+        // constants
+        this.extraSpaceWidth =
+            (DEVICE_WIDTH / 2) - (this.props.portraitWidth / 2);
+        // binds
+        this.handleScroll = this.handleScroll.bind(this);
+        this.enlargeChild = this.enlargeChild.bind(this);
+        this.shrinkChild = this.shrinkChild.bind(this);
+        this.scrollToIndex = this.scrollToIndex.bind(this);
     }
 
-    handleScroll(event: Object){
+    componentDidMount() {
+        this.middleIndex = this.props.startingIndex ?
+            (this.props.startingIndex) : (Math.floor(this.children.length / 2));
+        if (this.scrollView !== null) {
+            this.scrollView.scrollTo({x: this.middleIndex * this.props.portraitWidth, animated: true});
+        }
+    }
+
+    handleScroll(event: any){
+        // get offset
         const offset = event.nativeEvent.contentOffset.x;
-        console.log(offset);
-        // calculate middle index using portrait width, update state
-        // middleIndex = 
+        // calculate index
+        let temp = Math.round(offset / this.props.portraitWidth);
+        // prevent errors when scrolled outside the screen
+        if (temp < 0) {
+            temp = 0;
+        } else if (temp >= this.children.length){
+            temp = this.children.length - 1;
+        }
+        // if middle index changed enlarged new index and
+        // shrink old one
+        if (temp - this.middleIndex !== 0) {
+            this.enlargeChild(temp);
+            this.shrinkChild(this.middleIndex);
+            this.middleIndex = temp;
+        }
     }
 
-    // TODO: call this onMomentumScrollEnd
-    enlargeSelected(){
-        return null;
+    enlargeChild(index: number) {
+        this.children[index].enlarge();
     }
-    // TODO call this onScrollBeginDrag ?
-    shrinkSelected(){
-        return null;
+
+    shrinkChild(index: number) {
+        this.children[index].shrink();
+    }
+
+    scrollToIndex(index: number) {
+        if (this.scrollView !== null) {
+            this.scrollView.scrollTo({x: index * this.props.portraitWidth, animated: true});
+        }
     }
 
     render() {
-        const listItems = this.props.data.map((p) => {
-            return (
-              <Portrait key={p.id} width={this.props.portraitWidth} text={p.name}/>
+        const listItems: JSX.Element[] = [];
+        const arr: People[] = this.props.data;
+        for (let i = 0; i < this.props.data.length; i ++) {
+            listItems.push(
+                <Portrait
+                    key={arr[i].id}
+                    ref={(ref) => this.children[i] = ref}
+                    index={i}
+                    width={this.props.portraitWidth}
+                    text={arr[i].name}
+                    onPress={this.scrollToIndex}
+                />,
             );
-        });
-
-        const middlePortrait = Math.floor(this.props.data.length / 2);
+        }
 
         return(
             <ScrollView
+                ref={(ref) => this.scrollView = ref}
                 horizontal
                 snapToInterval={this.props.portraitWidth}
-                snapToAlignment="center"
+                snapToAlignment="start"
                 scrollEventThrottle={16}
                 onScroll={this.handleScroll}
+                onMomentumScrollEnd={() => this.enlargeChild(this.middleIndex)}
+                decelerationRate={0.7}
                 style={{  borderColor: "magenta", marginTop: 100} }>
+                <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} >
+                    <Text> I AM EXTRA SPACE </Text>
+                </View>
                 {listItems}
+                <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} >
+                    <Text> I AM EXTRA SPACE </Text>
+                </View>
             </ScrollView>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    extraSpace: {
+        backgroundColor: "black",
+    }
+});

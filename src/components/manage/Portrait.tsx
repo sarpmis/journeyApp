@@ -4,7 +4,6 @@ import {
     StyleSheet,
     Text,
     Animated,
-    Button,
     Easing,
     TouchableOpacity,
 } from "react-native";
@@ -14,52 +13,52 @@ interface Props {
     // surname: string;
     // title: string;
     width: number;
-    height: number;
     text: string;
+    index: number;
+    onPress: any;
+    height?: number;
 }
 
-interface State {
-    enlarged: boolean;
-}
-
-export default class Portrait extends React.Component<Props, State> {
+export default class Portrait extends React.Component<Props> {
     animated: Animated.Value;
+    enlarged: boolean;
 
     constructor(props: any) {
         super(props);
-        this.state = {
-            enlarged: false,
-        };
+        this.enlarged = false;
         this.animated = new Animated.Value(0);
         this.onPress = this.onPress.bind(this);
-        this.grow = this.grow.bind(this);
+        this.enlarge = this.enlarge.bind(this);
         this.shrink = this.shrink.bind(this);
+        this.isEnlarged = this.isEnlarged.bind(this);
     }
 
-    grow() {
+    enlarge() {
+        if (this.isEnlarged()) { return; }
+        this.enlarged = true;
         Animated.timing(this.animated, {
-            duration: 200,
+            duration: 250,
             easing: Easing.linear,
             toValue: 1,
         }).start();
     }
 
     shrink() {
+        if (!this.isEnlarged()) { return; }
+        this.enlarged = false;
         Animated.timing(this.animated, {
-            duration: 200,
+            duration: 400,
             easing: Easing.linear,
             toValue: 0,
         }).start();
     }
 
+    isEnlarged() {
+        return this.enlarged;
+    }
+
     onPress() {
-        if (this.state.enlarged) {
-            this.shrink();
-            this.setState({enlarged: false});
-        } else {
-            this.grow();
-            this.setState({enlarged: true});
-        }
+        this.props.onPress(this.props.index);
     }
 
     render() {
@@ -69,12 +68,13 @@ export default class Portrait extends React.Component<Props, State> {
         });
 
         return(
-            <Animated.View style={[styles.portraitContainer,
+            <TouchableOpacity style={[styles.portraitContainer,
                 {
                     width: this.props.width,
-                    // height: Animated.multiply(variableWidth, HEIGHT_TO_WIDTH),
                     height: this.props.width,
-                }]}>
+                }]}
+                onPress={this.onPress}
+                activeOpacity={1}>
                 <Animated.View style={[styles.circle,
                     {
                         width: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
@@ -82,9 +82,7 @@ export default class Portrait extends React.Component<Props, State> {
                         borderRadius: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
                         }]}/>
                 <Text style={{color: "black"}}> {this.props.text} </Text>
-                <TouchableOpacity onPress={this.onPress} 
-                    style={{backgroundColor: "red", height: 50, width: 50}}/>
-            </Animated.View>
+            </TouchableOpacity>
         );
     }
 }
@@ -102,5 +100,5 @@ const styles = StyleSheet.create({
     },
     circle: {
         backgroundColor: "blue",
-    }
+    },
 });
