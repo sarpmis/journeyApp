@@ -12,7 +12,7 @@ const globalTextProps = {
       lineHeight: 16,
       textAlign: "center",
     },
-  };
+};
 
 export default function setGlobals() {
     setCustomText(globalTextProps);

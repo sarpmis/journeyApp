@@ -1,21 +1,45 @@
 import React from "react";
-import { Text } from "react-native";
-
-import * as Actions from "@src/redux/actions/action";
+import {
+    Text,
+    View,
+    StyleSheet,
+} from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import * as Actions from "@src/redux/actions/action";
+import Portrait from "@src/components/manage/Portrait";
+import PortraitScrollView from '@src/components/manage/PortraitScrollView';
+import { DummyPeople } from '@src/components/manage/DummyPeopleService';
 
 interface Props {
+    navigation: any;
     username: string;
 }
 
 class ManageScreen extends React.Component<Props> {
+
     render() {
         return(
-            <Text style={{color: "black", marginTop: 200}}> Hellooooo {this.props.username} </Text>
+            // <Text style={{color: "black", marginTop: 200}}> Hellooooo {this.props.username} </Text>
+            // <View style={styles.selectedPortraitContainer}>
+            //     <Portrait width={200} height={300} />
+            // </View>
+            <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                <PortraitScrollView data={ DummyPeople.list } portraitWidth={100} />
+            </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    selectedPortraitContainer: {
+        borderWidth: 2,
+        borderColor: "green",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+});
 
 /****************************** REDUX BOILERPLATE ******************************/
 

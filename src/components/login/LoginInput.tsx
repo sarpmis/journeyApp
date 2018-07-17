@@ -40,7 +40,6 @@ class LoginInput extends React.Component<Props, State> {
     }
 
     onUsernameChange(input: string): void {
-        // this.setState({ username: input });
         this.props.setUsername(input);
     }
 
@@ -48,13 +47,11 @@ class LoginInput extends React.Component<Props, State> {
         this.props.setPassword(input);
     }
 
-    // Send credentials to the login button.
+    // Used for sending credentials to the login button
     onSubmit(): any {
         return {
             username: this.props.username,
         };
-            // service.checkUser(this.state.username, this.state.password);
-            // .then((user: any) => this.props.navigation.navigate("manage"));
     }
 
     render(): JSX.Element {
