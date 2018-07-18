@@ -15,7 +15,7 @@ interface Props {
     portraitWidth: number;
     // Callback functions
     onPortraitPressed: any;
-    removeRowsAbove: any;
+    removeRowsBelow: any;
     // optional index to center, default is middle
     startingIndex?: number;
 }
@@ -71,7 +71,7 @@ export default class PortraitScrollView extends React.Component <Props> {
             this.enlargeChild(temp);
             this.shrinkChild(this.middleIndex);
             this.middleIndex = temp;
-            // this.props.removeRowsAbove(this.props.index);
+            this.props.removeRowsBelow(this.props.index);
         }
     }
 
@@ -95,9 +95,10 @@ export default class PortraitScrollView extends React.Component <Props> {
     onPortraitPressed( personId: string, portraitIndex: number) {
         // scroll to the index
         this.scrollToIndex(portraitIndex);
-        // invoke callback to parent so it knows to make a new row
-        this.props.onPortraitPressed(personId, this.props.index);
-        // console.log("ROW: moving to " + portraitIndex);
+        // invoke callback to parent so it pops rows below this and if pressed portrait is the middle
+        // one create a new row for it
+        this.props.onPortraitPressed(personId, this.props.index, (portraitIndex === this.middleIndex));
+        console.log("portraitIndex: " + portraitIndex + ", middleIndex: " + this.middleIndex);
     }
 
     render() {
