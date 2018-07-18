@@ -6,15 +6,18 @@ import {
     Animated,
     Easing,
     TouchableOpacity,
+    Image,
 } from "react-native";
 
 interface Props {
-    // name: string;
-    // surname: string;
-    // title: string;
-    width: number;
+    // TODO: replace all these fields with Person object
+    id: string;
+    name: string;
+    surname: string;
+    title: string;
     text: string;
     index: number;
+    width: number;
     onPress: any;
     height?: number;
 }
@@ -58,7 +61,8 @@ export default class Portrait extends React.Component<Props> {
     }
 
     onPress() {
-        this.props.onPress(this.props.index);
+        this.props.onPress(this.props.id, this.props.index);
+        console.log("PORTRAIT: you clicked on " + this.props.index + ", id:" + this.props.id);
     }
 
     render() {
@@ -67,6 +71,7 @@ export default class Portrait extends React.Component<Props> {
             outputRange: [this.props.width, this.props.width * GROW_SCALE],
         });
 
+        // TODO: MAKE DUMMY CIRCLE IMAGE
         return(
             <TouchableOpacity style={[styles.portraitContainer,
                 {
@@ -77,6 +82,7 @@ export default class Portrait extends React.Component<Props> {
                 activeOpacity={1}>
                 <Animated.View style={[styles.circle,
                     {
+                        // apply ratios
                         width: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
                         height: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
                         borderRadius: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
@@ -90,13 +96,13 @@ export default class Portrait extends React.Component<Props> {
 /****************************** STYLING ******************************/
 // const HEIGHT_TO_WIDTH = 1.2;
 const CIRCLE_TO_WIDTH = 0.4;
-const GROW_SCALE = 2.5;
+const GROW_SCALE = 2;
 
 const styles = StyleSheet.create({
     portraitContainer: {
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "red",
+        // borderColor: "red",
     },
     circle: {
         backgroundColor: "blue",

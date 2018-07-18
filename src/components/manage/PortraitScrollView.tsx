@@ -10,8 +10,10 @@ import Portrait from "./Portrait";
 import { People } from "./People";
 
 interface Props {
+    index: number;
     data: People[];
     portraitWidth: number;
+    portraitPressed: any;
     startingIndex?: number;
 }
 
@@ -19,7 +21,7 @@ const DEVICE_WIDTH = Dimensions.get("window").width;
 
 export default class PortraitScrollView extends React.Component <Props> {
     private extraSpaceWidth: number;
-    private children: any;
+    private children: any; // ref array TODO: figure out proper type for this
     private middleIndex: number;
     private scrollView: ScrollView | null;
 
@@ -37,6 +39,7 @@ export default class PortraitScrollView extends React.Component <Props> {
         this.enlargeChild = this.enlargeChild.bind(this);
         this.shrinkChild = this.shrinkChild.bind(this);
         this.scrollToIndex = this.scrollToIndex.bind(this);
+        this.portraitPressed = this.portraitPressed.bind(this);
     }
 
     componentDidMount() {
@@ -75,10 +78,20 @@ export default class PortraitScrollView extends React.Component <Props> {
         this.children[index].shrink();
     }
 
+    // scrolls and centers the portrait of the given index
     scrollToIndex(index: number) {
         if (this.scrollView !== null) {
             this.scrollView.scrollTo({x: index * this.props.portraitWidth, animated: true});
         }
+    }
+
+    // we get portrait index and pers
+    portraitPressed( personId: string, portraitIndex: number) {
+        // scroll to the index
+        this.scrollToIndex(portraitIndex);
+        // invoke callback to parent so it knows to make a new row
+        this.props.portraitPressed(personId, this.props.index);
+        // console.log("ROW: moving to " + portraitIndex);
     }
 
     render() {
@@ -87,12 +100,16 @@ export default class PortraitScrollView extends React.Component <Props> {
         for (let i = 0; i < this.props.data.length; i ++) {
             listItems.push(
                 <Portrait
-                    key={arr[i].id}
-                    ref={(ref) => this.children[i] = ref}
+                    id={arr[i].id}
+                    name={arr[i].name}
+                    surname={arr[i].surname}
+                    title={arr[i].title}
+                    text={arr[i].name}
                     index={i}
                     width={this.props.portraitWidth}
-                    text={arr[i].name}
-                    onPress={this.scrollToIndex}
+                    onPress={this.portraitPressed}
+                    key={i}
+                    ref={(ref) => this.children[i] = ref}
                 />,
             );
         }
@@ -107,6 +124,7 @@ export default class PortraitScrollView extends React.Component <Props> {
                 onScroll={this.handleScroll}
                 onMomentumScrollEnd={() => this.enlargeChild(this.middleIndex)}
                 decelerationRate={0.7}
+                showsHorizontalScrollIndicator={false}
                 style={{  borderColor: "magenta", marginTop: 100} }>
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} >
                     <Text> I AM EXTRA SPACE </Text>
