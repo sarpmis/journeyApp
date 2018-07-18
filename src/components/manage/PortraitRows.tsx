@@ -27,10 +27,11 @@ export default class PortraitRows extends React.Component <Props> {
         // binds
         this.pushRow = this.pushRow.bind(this);
         this.popRow = this.popRow.bind(this);
-        this.removeRows = this.removeRows.bind(this);
+        this.popUpTo = this.popUpTo.bind(this);
         this.createNewRow = this.createNewRow.bind(this);
-        this.portraitPressed = this.portraitPressed.bind(this);
+        this.onPortraitPressed = this.onPortraitPressed.bind(this);
         this.updateState = this.updateState.bind(this);
+        this.onHorizontalScroll = this.onHorizontalScroll.bind(this);
         // initializers
         this.rowStack = [];
         this.rowCount = 0;
@@ -43,10 +44,11 @@ export default class PortraitRows extends React.Component <Props> {
         this.rowStack.push(
             <PortraitScrollView
                     key={this.rowCount}
-                    id={this.rowCount}
+                    index={this.rowCount}
                     data={ data }
                     portraitWidth={100}
-                    portraitPressed={this.portraitPressed}/>,
+                    onPortraitPressed={this.onPortraitPressed}
+                    removeRowsAbove={this.onHorizontalScroll}/>,
         );
     }
 
@@ -59,7 +61,8 @@ export default class PortraitRows extends React.Component <Props> {
     }
 
     // pops rows until the specified index is at the bottom
-    removeRows(index: number) {
+    popUpTo(index: number) {
+        console.log("index: " + index + ", rowCount: " + this.rowCount);
         if (index < this.rowCount) {
             const popCount = this.rowCount - index;
             for (let i = 0; i < popCount; i++) {
@@ -73,10 +76,19 @@ export default class PortraitRows extends React.Component <Props> {
         this.updateState();
     }
 
-    portraitPressed(personId: string, rowIndex: number) {
+    /****************************** CALLBACK FUNCTIONS ******************************/
+    // When a portrait is pressed a new row using the users id is created
+    // TODO: remove rows up to pressed index
+    onPortraitPressed(personId: string, rowIndex: number) {
         this.createNewRow(personId);
         // this.pushRow(DummyPeople.list);
         // console.log("ROWS: making a new row, new stack=" + this.rowStack);
+    }
+
+    // When user scrolls away on a row, we delete all rows below it
+    onHorizontalScroll(rowIndex: number) {
+            this.popUpTo(rowIndex);
+            this.updateState();
     }
 
     // rowStack is a class variable, but react only renders changes when

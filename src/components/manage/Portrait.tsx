@@ -62,7 +62,7 @@ export default class Portrait extends React.Component<Props> {
 
     onPress() {
         this.props.onPress(this.props.id, this.props.index);
-        console.log("PORTRAIT: you clicked on " + this.props.index + ", id:" + this.props.id);
+        // console.log("PORTRAIT: you clicked on " + this.props.index + ", id:" + this.props.id);
     }
 
     render() {

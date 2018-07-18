@@ -13,7 +13,10 @@ interface Props {
     index: number;
     data: People[];
     portraitWidth: number;
-    portraitPressed: any;
+    // Callback functions
+    onPortraitPressed: any;
+    removeRowsAbove: any;
+    // optional index to center, default is middle
     startingIndex?: number;
 }
 
@@ -39,7 +42,7 @@ export default class PortraitScrollView extends React.Component <Props> {
         this.enlargeChild = this.enlargeChild.bind(this);
         this.shrinkChild = this.shrinkChild.bind(this);
         this.scrollToIndex = this.scrollToIndex.bind(this);
-        this.portraitPressed = this.portraitPressed.bind(this);
+        this.onPortraitPressed = this.onPortraitPressed.bind(this);
     }
 
     componentDidMount() {
@@ -62,11 +65,13 @@ export default class PortraitScrollView extends React.Component <Props> {
             temp = this.children.length - 1;
         }
         // if middle index changed enlarged new index and
-        // shrink old one
+        // shrink old one. Tell parent to remove rows
+        // above this
         if (temp - this.middleIndex !== 0) {
             this.enlargeChild(temp);
             this.shrinkChild(this.middleIndex);
             this.middleIndex = temp;
+            // this.props.removeRowsAbove(this.props.index);
         }
     }
 
@@ -85,12 +90,13 @@ export default class PortraitScrollView extends React.Component <Props> {
         }
     }
 
+    /****************************** CALLBACK FUNCTIONS ******************************/
     // we get portrait index and pers
-    portraitPressed( personId: string, portraitIndex: number) {
+    onPortraitPressed( personId: string, portraitIndex: number) {
         // scroll to the index
         this.scrollToIndex(portraitIndex);
         // invoke callback to parent so it knows to make a new row
-        this.props.portraitPressed(personId, this.props.index);
+        this.props.onPortraitPressed(personId, this.props.index);
         // console.log("ROW: moving to " + portraitIndex);
     }
 
@@ -107,7 +113,7 @@ export default class PortraitScrollView extends React.Component <Props> {
                     text={arr[i].name}
                     index={i}
                     width={this.props.portraitWidth}
-                    onPress={this.portraitPressed}
+                    onPress={this.onPortraitPressed}
                     key={i}
                     ref={(ref) => this.children[i] = ref}
                 />,
