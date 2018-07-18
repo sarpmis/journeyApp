@@ -107,11 +107,7 @@ export default class PortraitScrollView extends React.Component <Props> {
         for (let i = 0; i < this.props.data.length; i ++) {
             listItems.push(
                 <Portrait
-                    id={arr[i].id}
-                    name={arr[i].name}
-                    surname={arr[i].surname}
-                    title={arr[i].title}
-                    text={arr[i].name}
+                    person={arr[i]}
                     index={i}
                     width={this.props.portraitWidth}
                     onPress={this.onPortraitPressed}

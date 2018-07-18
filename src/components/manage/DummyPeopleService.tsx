@@ -12,7 +12,7 @@ export class DummyPeopleModel {
     {id: '7', name: 'Ahmet', surname: 'Öz', title: 'Back End Developer', photo: 'tarik-akan.png'},
     {id: '8', name: 'Tuğba', surname: 'Öztürk Kaya', title: 'Agile Coach', photo: 'sevda-tolga.png'},
     {id: '9', name: 'Nurdan', surname: 'Canbaz', title: 'Agile Coach', photo: 'perran-kutman.png'},
-    // {id: '10', name: 'Kerem', surname: 'Turgay', title: 'Product Manager', photo: 'sener-sen.png'}
+    {id: '10', name: 'Kerem', surname: 'Turgay', title: 'Product Manager', photo: 'sener-sen.png'}
   ];
 
   constructor() {}

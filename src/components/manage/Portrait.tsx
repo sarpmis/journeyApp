@@ -12,15 +12,12 @@ import {
     PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
     PORTRAIT_IMAGE_GROW_SCALE,
 } from "@config/Configuration";
-
+import { People } from "@src/components/People";
+import { Images } from "@assets/images";
 
 interface Props {
     // TODO: replace all these fields with Person object
-    id: string;
-    name: string;
-    surname: string;
-    title: string;
-    text: string;
+    person: People;
     index: number;
     width: number;
     onPress: any;
@@ -30,15 +27,21 @@ interface Props {
 export default class Portrait extends React.Component<Props> {
     animated: Animated.Value;
     enlarged: boolean;
+    photo: string;
+    path: 'http://localhost:8080';
 
     constructor(props: any) {
         super(props);
-        this.enlarged = false;
-        this.animated = new Animated.Value(0);
+        // binds
         this.onPress = this.onPress.bind(this);
         this.enlarge = this.enlarge.bind(this);
         this.shrink = this.shrink.bind(this);
         this.isEnlarged = this.isEnlarged.bind(this);
+        // initial values
+        this.enlarged = false;
+        this.animated = new Animated.Value(0);
+        this.photo = "../../../assets/" + this.props.person.photo;
+        console.log(Images);
     }
 
     enlarge() {
@@ -66,7 +69,7 @@ export default class Portrait extends React.Component<Props> {
     }
 
     onPress() {
-        this.props.onPress(this.props.id, this.props.index);
+        this.props.onPress(this.props.person.id, this.props.index);
         // console.log("PORTRAIT: you clicked on " + this.props.index + ", id:" + this.props.id);
     }
 
@@ -85,16 +88,26 @@ export default class Portrait extends React.Component<Props> {
                 }]}
                 onPress={this.onPress}
                 activeOpacity={1}>
-                <Animated.View style={[styles.circle,
+                <Animated.Image style={[styles.portraitCircle,
                     {
                         // apply ratios
                         width: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
                         height: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
-                        borderRadius: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
-                        }]}/>
-                <Text style={{color: "black"}}> {this.props.text} </Text>
+                        borderRadius: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2),
+                    }]}
+                    source={Images.person[this.props.person.photo]}
+                    >
+                {/* <Image
+                    style={{
+                    flex: 1,
+                    // resizeMode,
+                    }}
+                    source={require("../../../assets/logo.png")}
+                /> */}
+                </Animated.Image>
+                <Text style={{color: "black"}}> {this.props.person.name} </Text>
             </TouchableOpacity>
-        );
+        ); 
     }
 }
 
@@ -105,7 +118,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: "red",
     },
-    circle: {
-        backgroundColor: "blue",
+    portraitCircle: {
+        // backgroundColor: "blue",
     },
 });

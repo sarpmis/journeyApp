@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux";
 import * as Actions from "@src/redux/actions/action";
 import Portrait from "@src/components/manage/Portrait";
 import PortraitScrollView from "@src/components/manage/PortraitScrollView";
-import PortraitRows from "@src/components/manage/PortraitRows";
+import PortraitRowsParent from "@src/components/manage/PortraitRowsParent";
 import { DummyPeople } from '@src/components/manage/DummyPeopleService';
 
 interface Props {
@@ -29,7 +29,7 @@ class ManageScreen extends React.Component<Props> {
                 {/* <PortraitScrollView
                     data={ DummyPeople.list }
                     portraitWidth={100} /> */}
-                <PortraitRows/>
+                <PortraitRowsParent />
             </View>
         );
     }
