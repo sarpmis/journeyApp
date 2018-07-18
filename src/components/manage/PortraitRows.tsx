@@ -6,6 +6,7 @@ import { People } from "./People";
 import PortraitScrollView from "./PortraitScrollView";
 import Portrait from "./Portrait";
 import { DummyPeople } from "@src/components/manage/DummyPeopleService";
+import { PORTRAIT_WIDTH } from "@config/Configuration";
 
 interface Props {
     something: any;
@@ -46,7 +47,7 @@ export default class PortraitRows extends React.Component <Props> {
                     key={this.rowCount}
                     index={this.rowCount}
                     data={ data }
-                    portraitWidth={100}
+                    portraitWidth={ PORTRAIT_WIDTH }
                     onPortraitPressed={this.onPortraitPressed}
                     removeRowsBelow={this.onHorizontalScroll}/>,
         );

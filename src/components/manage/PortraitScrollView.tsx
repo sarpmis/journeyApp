@@ -133,13 +133,13 @@ export default class PortraitScrollView extends React.Component <Props> {
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}
                 style={{  borderColor: "magenta", marginTop: 100} }>
-                <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} >
-                    <Text> I AM EXTRA SPACE </Text>
-                </View>
+                <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
+                    {/* <Text> I AM EXTRA SPACE </Text>
+                </View> */}
                 {listItems}
-                <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} >
-                    <Text> I AM EXTRA SPACE </Text>
-                </View>
+                <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
+                    {/* <Text> I AM EXTRA SPACE </Text>
+                </View> */}
             </ScrollView>
         );
     }
@@ -147,6 +147,6 @@ export default class PortraitScrollView extends React.Component <Props> {
 
 const styles = StyleSheet.create({
     extraSpace: {
-        backgroundColor: "black",
-    }
+        backgroundColor: "transparent",
+    },
 });

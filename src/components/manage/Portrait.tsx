@@ -8,6 +8,11 @@ import {
     TouchableOpacity,
     Image,
 } from "react-native";
+import {
+    PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
+    PORTRAIT_IMAGE_GROW_SCALE,
+} from "@config/Configuration";
+
 
 interface Props {
     // TODO: replace all these fields with Person object
@@ -68,7 +73,7 @@ export default class Portrait extends React.Component<Props> {
     render() {
         const variableWidth = this.animated.interpolate({
             inputRange: [0, 1],
-            outputRange: [this.props.width, this.props.width * GROW_SCALE],
+            outputRange: [this.props.width, this.props.width * PORTRAIT_IMAGE_GROW_SCALE],
         });
 
         // TODO: MAKE DUMMY CIRCLE IMAGE
@@ -83,9 +88,9 @@ export default class Portrait extends React.Component<Props> {
                 <Animated.View style={[styles.circle,
                     {
                         // apply ratios
-                        width: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
-                        height: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
-                        borderRadius: Animated.multiply(variableWidth, CIRCLE_TO_WIDTH),
+                        width: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
+                        height: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
+                        borderRadius: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
                         }]}/>
                 <Text style={{color: "black"}}> {this.props.text} </Text>
             </TouchableOpacity>
@@ -94,14 +99,10 @@ export default class Portrait extends React.Component<Props> {
 }
 
 /****************************** STYLING ******************************/
-// const HEIGHT_TO_WIDTH = 1.2;
-const CIRCLE_TO_WIDTH = 0.4;
-const GROW_SCALE = 2;
-
 const styles = StyleSheet.create({
     portraitContainer: {
         alignItems: "center",
-        borderWidth: 1,
+        // borderWidth: 1,
         // borderColor: "red",
     },
     circle: {
