@@ -18,6 +18,7 @@ interface Props {
     removeRowsBelow: any;
     // optional index to center, default is middle
     startingIndex?: number;
+    height?: number;
 }
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
@@ -128,7 +129,7 @@ export default class PortraitScrollView extends React.Component <Props> {
                 onMomentumScrollEnd={() => this.enlargeChild(this.middleIndex)}
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}
-                style={{  borderColor: "magenta", marginTop: 100} }>
+                style={{  borderColor: "magenta", height: this.props.height,  } }>
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
                     {/* <Text> I AM EXTRA SPACE </Text>
                 </View> */}

@@ -5,7 +5,7 @@ import {setCustomText} from "react-native-global-props";
 const globalTextProps = {
     style: {
       color: "#FFFFFF",
-    //   fontFamily: "Avenir",
+      fontFamily: "Avenir",
       fontSize: 12,
       fontWeight: "900",
       // justifyContent: "center",

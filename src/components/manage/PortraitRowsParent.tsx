@@ -1,12 +1,25 @@
 import * as React from "react";
 import {
     ScrollView,
+    StyleSheet,
+    View,
+    Dimensions,
 } from "react-native";
 import { People } from "./People";
 import PortraitScrollView from "./PortraitScrollView";
 import Portrait from "./Portrait";
 import { DummyPeople } from "@src/components/manage/DummyPeopleService";
-import { PORTRAIT_WIDTH } from "@config/Configuration";
+import {
+    PORTRAIT_WIDTH,
+    PORTRAIT_ROW_HEIGHT,
+    BOTTOM_NAVBAR_HEIGHT,
+    TOP_NAVBAR_HEIGHT,
+    ROOT_PORTRAIT_HEIGHT,
+    ROOT_PORTRAIT_WIDTH,
+} from "@config/Configuration";
+
+const DEVICE_HEIGHT = Dimensions.get("window").height;
+const DEVICE_WIDTH = Dimensions.get("window").width;
 
 interface Props {
     something: any;
@@ -26,6 +39,7 @@ export default class PortraitRows extends React.Component <Props> {
             rowStack: null,
         }
         // binds
+        this.pushRoot = this.pushRoot.bind(this);
         this.pushRow = this.pushRow.bind(this);
         this.popRow = this.popRow.bind(this);
         this.popUpTo = this.popUpTo.bind(this);
@@ -36,9 +50,26 @@ export default class PortraitRows extends React.Component <Props> {
         // initializers
         this.rowStack = [];
         this.rowCount = 0;
+        this.pushRoot(DummyPeople.list[0]);
         this.pushRow(DummyPeople.list);
     }
 
+    pushRoot(person: People){
+        this.rowStack.push(
+            <View
+                key={0}
+                style={{alignItems: "center", paddingTop: 64}}
+                >
+                <Portrait
+                    person={person}
+                    index={-1}
+                    width={ROOT_PORTRAIT_WIDTH}
+                    height={ROOT_PORTRAIT_HEIGHT}
+                    onPress={this.onPortraitPressed}
+                />
+            </View>,
+        );
+    }
     // pushes a new row to the bottom of the stack
     pushRow(data: People[]) {
         this.rowCount++;
@@ -49,7 +80,8 @@ export default class PortraitRows extends React.Component <Props> {
                     data={ data }
                     portraitWidth={ PORTRAIT_WIDTH }
                     onPortraitPressed={this.onPortraitPressed}
-                    removeRowsBelow={this.onHorizontalScroll}/>,
+                    removeRowsBelow={this.onHorizontalScroll}
+                    height={PORTRAIT_ROW_HEIGHT}/>,
         );
     }
 
@@ -102,9 +134,25 @@ export default class PortraitRows extends React.Component <Props> {
 
     render() {
         return(
-            <ScrollView>
+            <ScrollView 
+                contentContainerStyle={styles.scrollViewContainer}
+                decelerationRate={0.7}
+                >
                 {this.rowStack}
             </ScrollView>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    bottomBuffer: {
+        backgroundColor: "blue",
+        // height: 100,
+    },
+    scrollViewContainer: {
+        // backgroundColor: "lightblue",
+        paddingBottom: DEVICE_HEIGHT - PORTRAIT_ROW_HEIGHT
+            - BOTTOM_NAVBAR_HEIGHT
+            - TOP_NAVBAR_HEIGHT,
+    },
+});

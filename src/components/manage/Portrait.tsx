@@ -28,7 +28,6 @@ export default class Portrait extends React.Component<Props> {
     animated: Animated.Value;
     enlarged: boolean;
     photo: string;
-    path: 'http://localhost:8080';
 
     constructor(props: any) {
         super(props);
@@ -84,7 +83,7 @@ export default class Portrait extends React.Component<Props> {
             <TouchableOpacity style={[styles.portraitContainer,
                 {
                     width: this.props.width,
-                    height: this.props.width,
+                    height: this.props.height ? this.props.height : this.props.width,
                 }]}
                 onPress={this.onPress}
                 activeOpacity={1}>
@@ -97,17 +96,11 @@ export default class Portrait extends React.Component<Props> {
                     }]}
                     source={Images.person[this.props.person.photo]}
                     >
-                {/* <Image
-                    style={{
-                    flex: 1,
-                    // resizeMode,
-                    }}
-                    source={require("../../../assets/logo.png")}
-                /> */}
                 </Animated.Image>
-                <Text style={{color: "black"}}> {this.props.person.name} </Text>
+                <Text style={styles.portraitTitleText}> {this.props.person.name} {this.props.person.surname} </Text>
+                <Text style={styles.portraitBottomText}> {this.props.person.title} </Text>
             </TouchableOpacity>
-        ); 
+        );
     }
 }
 
@@ -120,5 +113,13 @@ const styles = StyleSheet.create({
     },
     portraitCircle: {
         // backgroundColor: "blue",
+    },
+    portraitTitleText: {
+        marginTop: 10,
+    },
+    portraitBottomText: {
+        fontSize: 10,
+        lineHeight: 14,
+        opacity: 0.6,
     },
 });

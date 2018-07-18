@@ -18,6 +18,9 @@ interface Props {
 }
 
 class ManageScreen extends React.Component<Props> {
+    static navigationOptions = {
+        tabBarVisible: false,
+      };
 
     render() {
         return(
@@ -25,7 +28,8 @@ class ManageScreen extends React.Component<Props> {
             // <View style={styles.selectedPortraitContainer}>
             //     <Portrait width={200} height={300} />
             // </View>
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <View style={{ flex: 1, justifyContent: "flex-end",
+                backgroundColor: "black" }}>
                 {/* <PortraitScrollView
                     data={ DummyPeople.list }
                     portraitWidth={100} /> */}
