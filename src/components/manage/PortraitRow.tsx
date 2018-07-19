@@ -119,6 +119,10 @@ export default class PortraitScrollView extends React.Component <Props> {
         }
 
         return(
+            <View style={styles.parentContainer} >
+            <View style={styles.verticalLine}>
+
+            </View>
             <ScrollView
                 ref={(ref) => this.scrollView = ref}
                 horizontal
@@ -129,7 +133,8 @@ export default class PortraitScrollView extends React.Component <Props> {
                 onMomentumScrollEnd={() => this.enlargeChild(this.middleIndex)}
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}
-                style={{  borderColor: "magenta", height: this.props.height,  } }>
+                contentContainerStyle={styles.scrollViewContainer}
+                style={{  borderColor: "magenta", height: this.props.height } }>
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
                     {/* <Text> I AM EXTRA SPACE </Text>
                 </View> */}
@@ -138,6 +143,7 @@ export default class PortraitScrollView extends React.Component <Props> {
                     {/* <Text> I AM EXTRA SPACE </Text>
                 </View> */}
             </ScrollView>
+            </View>
         );
     }
 }
@@ -146,4 +152,21 @@ const styles = StyleSheet.create({
     extraSpace: {
         backgroundColor: "transparent",
     },
+    verticalLine: {
+        width: 0,
+        borderWidth: 1,
+        borderColor: "white",
+        opacity: 0.6,
+        height: 30,
+    },
+    scrollViewContainer: {
+        alignItems: "center",
+        // borderColor: "blue",
+        // borderWidth: 1,
+    },
+    parentContainer: {
+        alignItems: "center",
+        // borderColor: "yellow",
+        // borderWidth: 1,
+    }
 });

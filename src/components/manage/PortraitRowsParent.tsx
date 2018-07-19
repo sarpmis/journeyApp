@@ -6,7 +6,7 @@ import {
     Dimensions,
 } from "react-native";
 import { People } from "./People";
-import PortraitScrollView from "./PortraitScrollView";
+import PortraitRow from "./PortraitRow";
 import Portrait from "./Portrait";
 import { DummyPeople } from "@src/components/manage/DummyPeopleService";
 import {
@@ -74,7 +74,7 @@ export default class PortraitRows extends React.Component <Props> {
     pushRow(data: People[]) {
         this.rowCount++;
         this.rowStack.push(
-            <PortraitScrollView
+            <PortraitRow
                     key={this.rowCount}
                     index={this.rowCount}
                     data={ data }
@@ -108,9 +108,10 @@ export default class PortraitRows extends React.Component <Props> {
     }
 
     /****************************** CALLBACK FUNCTIONS ******************************/
-    // When a portrait is pressed a new row using the users id is created
+    // When a portrait is pressed a new row using the person's id is created
     onPortraitPressed(personId: string, rowIndex: number, createRow: boolean) {
         this.popUpTo(rowIndex);
+        // console.log("popping up to: " + rowIndex + " createRow: " + createRow + " personId: " + personId);
         if (createRow) {
             this.createNewRow(personId);
             this.updateState();

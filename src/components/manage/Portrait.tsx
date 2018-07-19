@@ -40,7 +40,6 @@ export default class Portrait extends React.Component<Props> {
         this.enlarged = false;
         this.animated = new Animated.Value(0);
         this.photo = "../../../assets/" + this.props.person.photo;
-        console.log(Images);
     }
 
     enlarge() {
@@ -69,7 +68,6 @@ export default class Portrait extends React.Component<Props> {
 
     onPress() {
         this.props.onPress(this.props.person.id, this.props.index);
-        // console.log("PORTRAIT: you clicked on " + this.props.index + ", id:" + this.props.id);
     }
 
     render() {
@@ -113,6 +111,8 @@ const styles = StyleSheet.create({
     },
     portraitCircle: {
         // backgroundColor: "blue",
+        borderColor: "white",
+        borderWidth: 2,
     },
     portraitTitleText: {
         marginTop: 10,
