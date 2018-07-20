@@ -11,6 +11,10 @@ import {
 import {
     PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
     PORTRAIT_IMAGE_GROW_SCALE,
+    PORTRAIT_ANIMATION_SHRINK_TIME,
+    PORTRAIT_ANIMATION_GROW_TIME,
+    PORTRAIT_TEXT_MARGIN,
+    ASSETS_PATH,
 } from "@config/Configuration";
 import { People } from "@src/components/People";
 import { Images } from "@assets/images";
@@ -25,9 +29,10 @@ interface Props {
 }
 
 export default class Portrait extends React.Component<Props> {
-    animated: Animated.Value;
-    enlarged: boolean;
-    photo: string;
+    private animated: Animated.Value;
+    private enlarged: boolean;
+    private photo: string;
+    private photoGrowthMargin: number;
 
     constructor(props: any) {
         super(props);
@@ -39,16 +44,21 @@ export default class Portrait extends React.Component<Props> {
         // initial values
         this.enlarged = false;
         this.animated = new Animated.Value(0);
-        this.photo = "../../../assets/" + this.props.person.photo;
+        // class constants
+        this.photoGrowthMargin = this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO
+            * (PORTRAIT_IMAGE_GROW_SCALE - 1) / 2;
+        // dummy photo paths
+        this.photo = ASSETS_PATH + this.props.person.photo;
     }
 
     enlarge() {
         if (this.isEnlarged()) { return; }
         this.enlarged = true;
         Animated.timing(this.animated, {
-            duration: 250,
+            duration: PORTRAIT_ANIMATION_GROW_TIME,
             easing: Easing.linear,
             toValue: 1,
+            useNativeDriver: true,
         }).start();
     }
 
@@ -56,9 +66,10 @@ export default class Portrait extends React.Component<Props> {
         if (!this.isEnlarged()) { return; }
         this.enlarged = false;
         Animated.timing(this.animated, {
-            duration: 400,
+            duration: PORTRAIT_ANIMATION_SHRINK_TIME,
             easing: Easing.linear,
             toValue: 0,
+            useNativeDriver: true,
         }).start();
     }
 
@@ -71,12 +82,21 @@ export default class Portrait extends React.Component<Props> {
     }
 
     render() {
-        const variableWidth = this.animated.interpolate({
+        const transformValue = this.animated.interpolate({
             inputRange: [0, 1],
-            outputRange: [this.props.width, this.props.width * PORTRAIT_IMAGE_GROW_SCALE],
+            outputRange: [1, PORTRAIT_IMAGE_GROW_SCALE],
         });
 
-        // TODO: MAKE DUMMY CIRCLE IMAGE
+        const textAnimationY = this.animated.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, this.photoGrowthMargin],
+        });
+
+        // const variableWidth = this.animated.interpolate({
+        //     inputRange: [0, 1],
+        //     outputRange: [this.props.width, this.props.width * PORTRAIT_IMAGE_GROW_SCALE],
+        // });
+
         return(
             <TouchableOpacity style={[styles.portraitContainer,
                 {
@@ -85,18 +105,26 @@ export default class Portrait extends React.Component<Props> {
                 }]}
                 onPress={this.onPress}
                 activeOpacity={1}>
-                <Animated.Image style={[styles.portraitCircle,
+                <Animated.Image style={[styles.portraitCircle, styles.test,
                     {
+                        width: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
+                        height: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
+                        borderRadius: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2,
+                        marginTop: this.photoGrowthMargin,
                         // apply ratios
-                        width: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
-                        height: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
-                        borderRadius: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2),
+                        transform: [{ scale: transformValue}],
+                        // width: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
+                        // height: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
+                        // borderRadius: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2),
                     }]}
                     source={Images.person[this.props.person.photo]}
                     >
                 </Animated.Image>
-                <Text style={styles.portraitTitleText}> {this.props.person.name} {this.props.person.surname} </Text>
+                <Animated.View style={{transform: [{translateY: textAnimationY}]}}>
+                <Text style={styles.portraitTitleText}>
+                    {this.props.person.name} {this.props.person.surname} </Text>
                 <Text style={styles.portraitBottomText}> {this.props.person.title} </Text>
+                </Animated.View>
             </TouchableOpacity>
         );
     }
@@ -109,13 +137,16 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: "red",
     },
+    test: {
+        transform: [{ scale: 1.2}]
+    },
     portraitCircle: {
         // backgroundColor: "blue",
         borderColor: "white",
         borderWidth: 2,
     },
     portraitTitleText: {
-        marginTop: 10,
+        marginTop: PORTRAIT_TEXT_MARGIN,
     },
     portraitBottomText: {
         fontSize: 10,

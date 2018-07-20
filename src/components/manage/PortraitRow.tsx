@@ -23,7 +23,7 @@ interface Props {
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
-export default class PortraitScrollView extends React.Component <Props> {
+export default class PortraitRow extends React.Component <Props> {
     private extraSpaceWidth: number;
     private children: any; // ref array TODO: figure out proper type for this
     private middleIndex: number;
@@ -41,6 +41,7 @@ export default class PortraitScrollView extends React.Component <Props> {
         // binds
         this.handleScroll = this.handleScroll.bind(this);
         this.enlargeChild = this.enlargeChild.bind(this);
+        this.enlargeMiddleChild = this.enlargeMiddleChild.bind(this);
         this.shrinkChild = this.shrinkChild.bind(this);
         this.scrollToIndex = this.scrollToIndex.bind(this);
         this.onPortraitPressed = this.onPortraitPressed.bind(this);
@@ -65,9 +66,9 @@ export default class PortraitScrollView extends React.Component <Props> {
         } else if (temp >= this.children.length){
             temp = this.children.length - 1;
         }
-        // if middle index changed enlarged new index and
+        // if middle index changed enlarge new index and
         // shrink old one. Tell parent to remove rows
-        // above this
+        // below this
         if (temp - this.middleIndex !== 0) {
             this.enlargeChild(temp);
             this.shrinkChild(this.middleIndex);
@@ -78,6 +79,10 @@ export default class PortraitScrollView extends React.Component <Props> {
 
     enlargeChild(index: number) {
         this.children[index].enlarge();
+    }
+
+    enlargeMiddleChild() {
+        this.enlargeChild(this.middleIndex);
     }
 
     shrinkChild(index: number) {
@@ -99,7 +104,7 @@ export default class PortraitScrollView extends React.Component <Props> {
         // invoke callback to parent so it pops rows below this and if pressed portrait is the middle
         // one create a new row for it
         this.props.onPortraitPressed(personId, this.props.index, (portraitIndex === this.middleIndex));
-        console.log("portraitIndex: " + portraitIndex + ", middleIndex: " + this.middleIndex);
+        // console.log("portraitIndex: " + portraitIndex + ", middleIndex: " + this.middleIndex);
     }
 
     render() {
@@ -121,7 +126,6 @@ export default class PortraitScrollView extends React.Component <Props> {
         return(
             <View style={styles.parentContainer} >
             <View style={styles.verticalLine}>
-
             </View>
             <ScrollView
                 ref={(ref) => this.scrollView = ref}
@@ -130,7 +134,7 @@ export default class PortraitScrollView extends React.Component <Props> {
                 snapToAlignment="start"
                 scrollEventThrottle={16}
                 onScroll={this.handleScroll}
-                onMomentumScrollEnd={() => this.enlargeChild(this.middleIndex)}
+                onMomentumScrollEnd={this.enlargeMiddleChild}
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.scrollViewContainer}
@@ -168,5 +172,5 @@ const styles = StyleSheet.create({
         alignItems: "center",
         // borderColor: "yellow",
         // borderWidth: 1,
-    }
+    },
 });

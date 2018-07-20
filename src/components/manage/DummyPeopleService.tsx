@@ -1,4 +1,4 @@
-import { People } from "./People"
+import { People } from "./People";
 
 export class DummyPeopleModel {
   static instance = new DummyPeopleModel();
