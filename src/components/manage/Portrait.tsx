@@ -17,7 +17,7 @@ import {
     ASSETS_PATH,
 } from "@config/Configuration";
 import { People } from "@src/components/People";
-import { Images } from "@assets/images";
+import { Images } from "@assets/Images";
 
 interface Props {
     // TODO: replace all these fields with Person object
@@ -31,7 +31,6 @@ interface Props {
 export default class Portrait extends React.Component<Props> {
     private animated: Animated.Value;
     private enlarged: boolean;
-    private photo: string;
     private photoGrowthMargin: number;
 
     constructor(props: any) {
@@ -47,8 +46,6 @@ export default class Portrait extends React.Component<Props> {
         // class constants
         this.photoGrowthMargin = this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO
             * (PORTRAIT_IMAGE_GROW_SCALE - 1) / 2;
-        // dummy photo paths
-        this.photo = ASSETS_PATH + this.props.person.photo;
     }
 
     enlarge() {

@@ -1,15 +1,12 @@
 import React from "react";
 import {
-    Text,
     View,
     StyleSheet,
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as Actions from "@src/redux/actions/action";
-import Portrait from "@src/components/manage/Portrait";
 import PortraitRowsParent from "@src/components/manage/PortraitRowsParent";
-import { DummyPeople } from '@src/components/manage/DummyPeopleService';
 
 interface Props {
     navigation: any;
@@ -23,15 +20,7 @@ class ManageScreen extends React.Component<Props> {
 
     render() {
         return(
-            // <Text style={{color: "black", marginTop: 200}}> Hellooooo {this.props.username} </Text>
-            // <View style={styles.selectedPortraitContainer}>
-            //     <Portrait width={200} height={300} />
-            // </View>
-            <View style={{ flex: 1, justifyContent: "flex-end",
-                backgroundColor: "black" }}>
-                {/* <PortraitScrollView
-                    data={ DummyPeople.list }
-                    portraitWidth={100} /> */}
+            <View style={styles.manageScreenBackground}>
                 <PortraitRowsParent />
             </View>
         );
@@ -39,12 +28,10 @@ class ManageScreen extends React.Component<Props> {
 }
 
 const styles = StyleSheet.create({
-    selectedPortraitContainer: {
-        borderWidth: 2,
-        borderColor: "green",
+    manageScreenBackground: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-end",
+        backgroundColor: "black",
     },
 });
 

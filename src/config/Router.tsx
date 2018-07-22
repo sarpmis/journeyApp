@@ -1,10 +1,56 @@
-import { createBottomTabNavigator } from "react-navigation";
+import {
+  Animated,
+  Easing,
+} from "react-native";
+import { createBottomTabNavigator, createStackNavigator } from "react-navigation";
 import LoginScreen from "../screens/LoginScreen";
 import ManageScreen from "../screens/ManageScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 
-export const MainNavigator = createBottomTabNavigator({
-  home: { screen: ManageScreen },
-  login: { screen: LoginScreen },
-  manage: { screen: ManageScreen },
-});
+// export const MainNavigator = createBottomTabNavigator({
+//   home: { screen: ManageScreen },
+//   login: { screen: LoginScreen },
+//   manage: { screen: ManageScreen },
+//   }, {
+//     initialRouteName: "login",
+
+//   });
+
+export const MainNavigator = createStackNavigator(
+  {
+    home: { screen: WelcomeScreen },
+    login: { screen: LoginScreen },
+    manage: { screen: ManageScreen },
+  },
+  {
+    headerMode: 'none',
+    mode: 'modal',
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+    transitionConfig: () => ({
+      transitionSpec: {
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+      },
+      screenInterpolator: sceneProps => {
+        const { layout, position, scene } = sceneProps;
+        const { index } = scene;
+
+        const height = layout.initHeight;
+        const translateY = position.interpolate({
+          inputRange: [index - 1, index, index + 1],
+          outputRange: [height, 0, 0],
+        });
+
+        const opacity = position.interpolate({
+          inputRange: [index - 1, index - 0.99, index],
+          outputRange: [0, 1, 1],
+        });
+
+        return { opacity, transform: [{ translateY }] };
+      },
+    }),
+  }
+);
