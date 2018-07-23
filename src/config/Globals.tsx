@@ -1,6 +1,6 @@
 // for global styling
 // @ts-ignore
-import {setCustomText} from "react-native-global-props";
+import { setCustomText } from "react-native-global-props";
 
 const globalTextProps = {
     style: {

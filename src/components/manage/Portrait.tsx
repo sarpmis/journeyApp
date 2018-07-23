@@ -17,7 +17,7 @@ import {
     ASSETS_PATH,
 } from "@config/Configuration";
 import { People } from "@src/components/People";
-import { Images } from "@assets/Images";
+import { Images } from "@config/Images";
 
 interface Props {
     // TODO: replace all these fields with Person object
