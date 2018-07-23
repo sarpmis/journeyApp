@@ -16,8 +16,8 @@ export const Images = {
         "sener-sen.png": require("@assets/peoples/sener-sen.png"),
     },
     backgrounds: {
-        welcomeScreen: require("../../assets/login-background.png"),
-        loginScreen: require("@assets/login-background.png"),
+        welcomeScreen: require("@assets/login-background.png"),
+        loginScreen: require("@assets/Videos/login.mp4"),
     },
 };
 
@@ -26,6 +26,7 @@ export function cacheBackgroundImages() {
     for (const img in Images.backgrounds) {
         // @ts-ignore
         promises.push(Asset.fromModule(Images.backgrounds[img]).downloadAsync());
+        console.log("cached " + img);
     }
     return promises;
 }

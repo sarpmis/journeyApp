@@ -6,6 +6,9 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import {
+    TOP_NAVBAR_HEIGHT,
+} from "@config/Configuration";
 
 interface LoginHeaderProps {
     navigation: any;
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "rgba(255,255,255,0.1)",
         flexDirection: "row",
-        height: 64,
+        height: TOP_NAVBAR_HEIGHT,
         paddingBottom: 10,
         paddingTop: 25,
         // borderColor: 'red',

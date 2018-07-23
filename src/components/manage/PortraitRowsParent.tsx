@@ -135,7 +135,7 @@ export default class PortraitRows extends React.Component <Props> {
 
     render() {
         return(
-            <ScrollView 
+            <ScrollView
                 contentContainerStyle={styles.scrollViewContainer}
                 decelerationRate={0.7}
                 >
