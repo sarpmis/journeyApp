@@ -45,7 +45,6 @@ export default class PortraitRows extends React.Component <Props> {
         this.popUpTo = this.popUpTo.bind(this);
         this.createNewRow = this.createNewRow.bind(this);
         this.popAndCreate = this.popAndCreate.bind(this);
-        this.updateState = this.updateState.bind(this);
         this.removeRowsBelow = this.removeRowsBelow.bind(this);
         // initializers
         this.rowStack = [];
@@ -107,14 +106,6 @@ export default class PortraitRows extends React.Component <Props> {
         this.pushRow(DummyPeople.list);
     }
 
-    // copy rowStack into the state to render changes. 
-    // TODO: manual rendering instead???
-    updateState() {
-        this.setState({
-            rowStack: this.rowStack,
-        });
-    }
-
     /****************************** CALLBACK FUNCTIONS ******************************/
     // pops up to the given row index and creates a new row using the given 
     // person Id
@@ -123,7 +114,7 @@ export default class PortraitRows extends React.Component <Props> {
         // console.log("popping up to: " + rowIndex + " createRow: " + createRow + " personId: " + personId);
         if (createRow) {
             this.createNewRow(personId);
-            this.updateState();
+            this.forceUpdate();
         }
     }
 
@@ -132,7 +123,7 @@ export default class PortraitRows extends React.Component <Props> {
         const stackSizeBefore = this.rowCount;
         this.popUpTo(rowIndex);
         if (stackSizeBefore !== this.rowCount) {
-            this.updateState();
+            this.forceUpdate();
         }
     }
 
