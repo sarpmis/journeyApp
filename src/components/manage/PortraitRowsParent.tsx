@@ -44,9 +44,9 @@ export default class PortraitRows extends React.Component <Props> {
         this.popRow = this.popRow.bind(this);
         this.popUpTo = this.popUpTo.bind(this);
         this.createNewRow = this.createNewRow.bind(this);
-        this.onPortraitPressed = this.onPortraitPressed.bind(this);
+        this.popAndCreate = this.popAndCreate.bind(this);
         this.updateState = this.updateState.bind(this);
-        this.onHorizontalScroll = this.onHorizontalScroll.bind(this);
+        this.removeRowsBelow = this.removeRowsBelow.bind(this);
         // initializers
         this.rowStack = [];
         this.rowCount = 0;
@@ -65,7 +65,7 @@ export default class PortraitRows extends React.Component <Props> {
                     index={-1}
                     width={ROOT_PORTRAIT_WIDTH}
                     height={ROOT_PORTRAIT_HEIGHT}
-                    onPress={this.onPortraitPressed}
+                    onPress={this.popAndCreate}
                 />
             </View>,
         );
@@ -79,8 +79,8 @@ export default class PortraitRows extends React.Component <Props> {
                     index={this.rowCount}
                     data={ data }
                     portraitWidth={ PORTRAIT_WIDTH }
-                    onPortraitPressed={this.onPortraitPressed}
-                    removeRowsBelow={this.onHorizontalScroll}
+                    onPortraitPressed={this.popAndCreate}
+                    onMidChange={this.removeRowsBelow}
                     height={PORTRAIT_ROW_HEIGHT}/>,
         );
     }
@@ -107,9 +107,18 @@ export default class PortraitRows extends React.Component <Props> {
         this.pushRow(DummyPeople.list);
     }
 
+    // copy rowStack into the state to render changes. 
+    // TODO: manual rendering instead???
+    updateState() {
+        this.setState({
+            rowStack: this.rowStack,
+        });
+    }
+
     /****************************** CALLBACK FUNCTIONS ******************************/
-    // When a portrait is pressed a new row using the person's id is created
-    onPortraitPressed(personId: string, rowIndex: number, createRow: boolean) {
+    // pops up to the given row index and creates a new row using the given 
+    // person Id
+    popAndCreate (personId: string, rowIndex: number, createRow: boolean) {
         this.popUpTo(rowIndex);
         // console.log("popping up to: " + rowIndex + " createRow: " + createRow + " personId: " + personId);
         if (createRow) {
@@ -119,18 +128,12 @@ export default class PortraitRows extends React.Component <Props> {
     }
 
     // When user scrolls away on a row, we delete all rows below it
-    onHorizontalScroll(rowIndex: number) {
+    removeRowsBelow(rowIndex: number) {
+        const stackSizeBefore = this.rowCount;
         this.popUpTo(rowIndex);
-        this.updateState();
-    }
-
-    // rowStack is a class variable, but react only renders changes when
-    // state variables change. So whenever we want our changes to render
-    // we copy rowStack to state
-    updateState() {
-        this.setState({
-            rowStack: this.rowStack,
-        });
+        if (stackSizeBefore !== this.rowCount) {
+            this.updateState();
+        }
     }
 
     render() {
@@ -146,10 +149,6 @@ export default class PortraitRows extends React.Component <Props> {
 }
 
 const styles = StyleSheet.create({
-    bottomBuffer: {
-        backgroundColor: "blue",
-        // height: 100,
-    },
     scrollViewContainer: {
         // backgroundColor: "lightblue",
         paddingBottom: DEVICE_HEIGHT - PORTRAIT_ROW_HEIGHT

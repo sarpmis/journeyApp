@@ -14,7 +14,7 @@ export const MainNavigator = createStackNavigator(
     manage: { screen: ManageScreen },
   },
   {
-    initialRouteName: "welcome",
+    initialRouteName: "manage",
     headerMode: "none",
     // mode: "modal",
     navigationOptions: {

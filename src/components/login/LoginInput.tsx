@@ -100,7 +100,6 @@ const BUTTON_TEXTFIELD_DIFF = 20;
 const styles = StyleSheet.create({
     loginInput: {
         color: "rgba(255,255,255,0.8)",
-        fontFamily: "Avenir",
         fontSize: 12,
         fontWeight: "900",
         height: 40,

@@ -16,12 +16,12 @@ const runCPUburner = () => {
     requestAnimationFrame(runCPUburner);
 };
 
-runCPUburner();
+// runCPUburner();
 
 interface State {
     isReady: boolean;
 }
-setGlobals();
+
 // ENTRY POINT OF APP
 export default class App extends React.Component<State> {
     constructor(props: any) {
@@ -49,7 +49,7 @@ export default class App extends React.Component<State> {
         if (!this.state.isReady) {
             return(
                 <AppLoading
-                    startAsync={this.loadAssetsAsync}
+                    startAsync={this.initApp}
                     onFinish={() => this.setState({ isReady: true })}
                     onError={console.warn}
                 />

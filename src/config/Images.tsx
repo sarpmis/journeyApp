@@ -26,7 +26,7 @@ export function cacheBackgroundImages() {
     for (const img in Images.backgrounds) {
         // @ts-ignore
         promises.push(Asset.fromModule(Images.backgrounds[img]).downloadAsync());
-        console.log("cached " + img);
+        // console.log("cached " + img);
     }
     return promises;
 }

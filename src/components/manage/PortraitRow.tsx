@@ -15,7 +15,8 @@ interface Props {
     portraitWidth: number;
     // Callback functions
     onPortraitPressed: any;
-    removeRowsBelow: any;
+    onMidChange: any;
+    onScrollEnd: any;
     // optional index to center, default is middle
     startingIndex?: number;
     height?: number;
@@ -55,6 +56,10 @@ export default class PortraitRow extends React.Component <Props> {
         }
     }
 
+    shouldComponentUpdate(){
+        return false;
+    }
+
     handleScroll(event: any){
         // get offset
         const offset = event.nativeEvent.contentOffset.x;
@@ -66,14 +71,12 @@ export default class PortraitRow extends React.Component <Props> {
         } else if (temp >= this.children.length){
             temp = this.children.length - 1;
         }
-        // if middle index changed enlarge new index and
-        // shrink old one. Tell parent to remove rows
-        // below this
+        // if middle index changed
         if (temp - this.middleIndex !== 0) {
             this.enlargeChild(temp);
             this.shrinkChild(this.middleIndex);
             this.middleIndex = temp;
-            this.props.removeRowsBelow(this.props.index);
+            this.props.onMidChange(this.props.index);
         }
     }
 
@@ -104,7 +107,6 @@ export default class PortraitRow extends React.Component <Props> {
         // invoke callback to parent so it pops rows below this and if pressed portrait is the middle
         // one create a new row for it
         this.props.onPortraitPressed(personId, this.props.index, (portraitIndex === this.middleIndex));
-        // console.log("portraitIndex: " + portraitIndex + ", middleIndex: " + this.middleIndex);
     }
 
     render() {

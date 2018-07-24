@@ -47,6 +47,10 @@ export default class Portrait extends React.Component<Props> {
             * (PORTRAIT_IMAGE_GROW_SCALE - 1) / 2;
     }
 
+    shouldComponentUpdate() {
+        return false;
+    }
+
     enlarge() {
         if (this.isEnlarged()) { return; }
         this.enlarged = true;
@@ -92,7 +96,6 @@ export default class Portrait extends React.Component<Props> {
         //     inputRange: [0, 1],
         //     outputRange: [this.props.width, this.props.width * PORTRAIT_IMAGE_GROW_SCALE],
         // });
-
         return(
             <TouchableOpacity style={[styles.portraitContainer,
                 {
