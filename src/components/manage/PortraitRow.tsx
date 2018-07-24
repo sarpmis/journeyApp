@@ -30,14 +30,16 @@ export default class PortraitRow extends React.Component <Props> {
     private middleIndex: number;
     private scrollView: ScrollView | null;
     private firstAction: boolean;
+    private startingIndex: number;
 
     constructor(props: any){
         super(props);
         // initial values
         this.scrollView = null;
         this.middleIndex = 0;
+        this.startingIndex = 0;
         this.children = [];
-        this.firstAction = false;
+        this.firstAction = true;
         // constants
         this.extraSpaceWidth =
             (DEVICE_WIDTH / 2) - (this.props.portraitWidth / 2);
@@ -49,7 +51,7 @@ export default class PortraitRow extends React.Component <Props> {
         this.scrollToIndex = this.scrollToIndex.bind(this);
         this.onPortraitPressed = this.onPortraitPressed.bind(this);
         this.onScrollEnd = this.onScrollEnd.bind(this);
-        this.firstActionCheck = this.firstActionCheck.bind(this);
+        this.onScrollBegin = this.onScrollBegin.bind(this);
     }
 
     componentDidMount() {
@@ -84,6 +86,7 @@ export default class PortraitRow extends React.Component <Props> {
                 this.props.onMidChange(this.props.index);
             }
         }
+        console.log(this.middleIndex);
     }
 
     enlargeChild(index: number) {
@@ -105,20 +108,16 @@ export default class PortraitRow extends React.Component <Props> {
         }
     }
 
-    firstActionCheck() {
-        if (!this.firstAction) {
-            this.enlargeMiddleChild();
-            this.firstAction = true;
-        }
-    }
-
     /****************************** CALLBACK FUNCTIONS ******************************/
     // we get portrait index and pers
     onPortraitPressed( personId: string, portraitIndex: number) {
         // scroll to the index
         this.scrollToIndex(portraitIndex);
         if (portraitIndex === this.middleIndex) {
-            this.firstActionCheck();
+            if (this.firstAction) {
+                this.enlargeMiddleChild();
+                this.firstAction = false;
+            }
         }
         // callback to parent
         this.props.onPortraitPressed(personId, this.props.index, (portraitIndex === this.middleIndex));
@@ -127,7 +126,19 @@ export default class PortraitRow extends React.Component <Props> {
     onScrollEnd() {
         this.scrollToIndex(this.middleIndex);
         // callback to parent
-        this.props.onScrollEnd(this.children[this.middleIndex].getPerson().id, this.props.index, true);
+        if (this.startingIndex !== this.middleIndex || this.firstAction) {
+            this.props.onScrollEnd(this.children[this.middleIndex].getPerson().id, this.props.index, true);
+        }
+        if (this.firstAction) {
+            this.firstAction = false;
+        }
+    }
+
+    onScrollBegin() {
+        if (this.firstAction) {
+            this.enlargeMiddleChild();
+        }
+        this.startingIndex = this.middleIndex;
     }
 
     render() {
@@ -140,6 +151,7 @@ export default class PortraitRow extends React.Component <Props> {
                     index={i}
                     width={this.props.portraitWidth}
                     onPress={this.onPortraitPressed}
+                    touchable
                     key={i}
                     ref={(ref) => this.children[i] = ref}
                 />,
@@ -157,7 +169,7 @@ export default class PortraitRow extends React.Component <Props> {
                 snapToAlignment="start"
                 scrollEventThrottle={16}
                 onScroll={this.handleScroll}
-                onScrollBeginDrag={this.firstActionCheck}
+                onScrollBeginDrag={this.onScrollBegin}
                 onMomentumScrollEnd={this.onScrollEnd}
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}

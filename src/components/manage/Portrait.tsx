@@ -24,6 +24,7 @@ interface Props {
     width: number;
     onPress: any;
     height?: number;
+    touchable?: boolean;
 }
 
 export default class Portrait extends React.Component<Props> {
@@ -106,7 +107,7 @@ export default class Portrait extends React.Component<Props> {
                     height: this.props.height ? this.props.height : this.props.width,
                 }]}
                 onPress={this.onPress}
-                activeOpacity={1}>
+                activeOpacity={this.props.touchable? (0.5) : (1)}>
                 <Animated.Image style={[styles.portraitCircle, styles.test,
                     {
                         width: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
