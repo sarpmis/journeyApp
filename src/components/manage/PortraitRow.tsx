@@ -15,7 +15,7 @@ interface Props {
     portraitWidth: number;
     // Callback functions
     onPortraitPressed: any;
-    onMidChange: any;
+    onMidChange?: any;
     onScrollEnd: any;
     // optional index to center, default is middle
     startingIndex?: number;
@@ -29,6 +29,7 @@ export default class PortraitRow extends React.Component <Props> {
     private children: any; // ref array TODO: figure out proper type for this
     private middleIndex: number;
     private scrollView: ScrollView | null;
+    private firstAction: boolean;
 
     constructor(props: any){
         super(props);
@@ -36,6 +37,7 @@ export default class PortraitRow extends React.Component <Props> {
         this.scrollView = null;
         this.middleIndex = 0;
         this.children = [];
+        this.firstAction = false;
         // constants
         this.extraSpaceWidth =
             (DEVICE_WIDTH / 2) - (this.props.portraitWidth / 2);
@@ -46,21 +48,23 @@ export default class PortraitRow extends React.Component <Props> {
         this.shrinkChild = this.shrinkChild.bind(this);
         this.scrollToIndex = this.scrollToIndex.bind(this);
         this.onPortraitPressed = this.onPortraitPressed.bind(this);
+        this.onScrollEnd = this.onScrollEnd.bind(this);
+        this.firstActionCheck = this.firstActionCheck.bind(this);
     }
 
     componentDidMount() {
         this.middleIndex = this.props.startingIndex ?
             (this.props.startingIndex) : (Math.floor(this.children.length / 2));
         if (this.scrollView !== null) {
-            this.scrollView.scrollTo({x: this.middleIndex * this.props.portraitWidth, animated: true});
+            this.scrollView.scrollTo({x: this.middleIndex * this.props.portraitWidth, animated: false});
         }
     }
 
-    shouldComponentUpdate(){
+    shouldComponentUpdate() {
         return false;
     }
 
-    handleScroll(event: any){
+    handleScroll(event: any) {
         // get offset
         const offset = event.nativeEvent.contentOffset.x;
         // calculate index
@@ -76,7 +80,9 @@ export default class PortraitRow extends React.Component <Props> {
             this.enlargeChild(temp);
             this.shrinkChild(this.middleIndex);
             this.middleIndex = temp;
-            this.props.onMidChange(this.props.index);
+            if (this.props.onMidChange) {
+                this.props.onMidChange(this.props.index);
+            }
         }
     }
 
@@ -99,20 +105,35 @@ export default class PortraitRow extends React.Component <Props> {
         }
     }
 
+    firstActionCheck() {
+        if (!this.firstAction) {
+            this.enlargeMiddleChild();
+            this.firstAction = true;
+        }
+    }
+
     /****************************** CALLBACK FUNCTIONS ******************************/
     // we get portrait index and pers
     onPortraitPressed( personId: string, portraitIndex: number) {
         // scroll to the index
         this.scrollToIndex(portraitIndex);
-        // invoke callback to parent so it pops rows below this and if pressed portrait is the middle
-        // one create a new row for it
+        if (portraitIndex === this.middleIndex) {
+            this.firstActionCheck();
+        }
+        // callback to parent
         this.props.onPortraitPressed(personId, this.props.index, (portraitIndex === this.middleIndex));
+    }
+
+    onScrollEnd() {
+        this.scrollToIndex(this.middleIndex);
+        // callback to parent
+        this.props.onScrollEnd(this.children[this.middleIndex].getPerson().id, this.props.index, true);
     }
 
     render() {
         const listItems: JSX.Element[] = [];
         const arr: People[] = this.props.data;
-        for (let i = 0; i < this.props.data.length; i ++) {
+        for (let i = 0; i < this.props.data.length; i++) {
             listItems.push(
                 <Portrait
                     person={arr[i]}
@@ -136,18 +157,15 @@ export default class PortraitRow extends React.Component <Props> {
                 snapToAlignment="start"
                 scrollEventThrottle={16}
                 onScroll={this.handleScroll}
-                onMomentumScrollEnd={this.enlargeMiddleChild}
+                onScrollBeginDrag={this.firstActionCheck}
+                onMomentumScrollEnd={this.onScrollEnd}
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.scrollViewContainer}
                 style={{  borderColor: "magenta", height: this.props.height } }>
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
-                    {/* <Text> I AM EXTRA SPACE </Text>
-                </View> */}
                 {listItems}
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
-                    {/* <Text> I AM EXTRA SPACE </Text>
-                </View> */}
             </ScrollView>
             </View>
         );

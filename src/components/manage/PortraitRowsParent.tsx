@@ -25,19 +25,13 @@ interface Props {
     something: any;
 }
 
-interface State {
-    rowStack: JSX.Element[];
-}
-
 export default class PortraitRows extends React.Component <Props> {
     private rowStack: JSX.Element[];
     private rowCount: number;
+    private totalRowCount: number; // to keep keys unique
 
     constructor(props: Props) {
         super(props);
-        this.state = {
-            rowStack: null,
-        }
         // binds
         this.pushRoot = this.pushRoot.bind(this);
         this.pushRow = this.pushRow.bind(this);
@@ -49,6 +43,7 @@ export default class PortraitRows extends React.Component <Props> {
         // initializers
         this.rowStack = [];
         this.rowCount = 0;
+        this.totalRowCount = 0;
         this.pushRoot(DummyPeople.list[0]);
         this.pushRow(DummyPeople.list);
     }
@@ -72,14 +67,17 @@ export default class PortraitRows extends React.Component <Props> {
     // pushes a new row to the bottom of the stack
     pushRow(data: People[]) {
         this.rowCount++;
+        this.totalRowCount++;
         this.rowStack.push(
             <PortraitRow
-                    key={this.rowCount}
+                    key={this.totalRowCount}
                     index={this.rowCount}
                     data={ data }
                     portraitWidth={ PORTRAIT_WIDTH }
                     onPortraitPressed={this.popAndCreate}
-                    onMidChange={this.removeRowsBelow}
+                    // onMidChange={this.removeRowsBelow}
+                    onScrollEnd={this.popAndCreate}
+                    // startingIndex={Math.floor((Math.random() * data.length))}
                     height={PORTRAIT_ROW_HEIGHT}/>,
         );
     }
@@ -103,19 +101,23 @@ export default class PortraitRows extends React.Component <Props> {
     }
 
     createNewRow(id: string) {
-        this.pushRow(DummyPeople.list);
+        const employNum = Math.floor((Math.random() * 10) + 1);
+        const data = new Array<People>();
+        for (let i = 0; i < employNum; i++){
+            data.push(DummyPeople.list[Math.floor((Math.random() * 9))]);
+        }
+        this.pushRow(data);
     }
 
     /****************************** CALLBACK FUNCTIONS ******************************/
     // pops up to the given row index and creates a new row using the given 
     // person Id
-    popAndCreate (personId: string, rowIndex: number, createRow: boolean) {
+    popAndCreate(personId: string, rowIndex: number, createRow: boolean) {
         this.popUpTo(rowIndex);
-        // console.log("popping up to: " + rowIndex + " createRow: " + createRow + " personId: " + personId);
         if (createRow) {
             this.createNewRow(personId);
-            this.forceUpdate();
         }
+        this.forceUpdate();
     }
 
     // When user scrolls away on a row, we delete all rows below it

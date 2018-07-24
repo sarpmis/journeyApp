@@ -14,7 +14,6 @@ import {
     PORTRAIT_ANIMATION_SHRINK_TIME,
     PORTRAIT_ANIMATION_GROW_TIME,
     PORTRAIT_TEXT_MARGIN,
-    ASSETS_PATH,
 } from "@config/Configuration";
 import { People } from "@src/components/People";
 import { Images } from "@config/Images";
@@ -49,6 +48,10 @@ export default class Portrait extends React.Component<Props> {
 
     shouldComponentUpdate() {
         return false;
+    }
+
+    getPerson() {
+        return this.props.person;
     }
 
     enlarge() {
@@ -112,9 +115,6 @@ export default class Portrait extends React.Component<Props> {
                         marginTop: this.photoGrowthMargin,
                         // apply ratios
                         transform: [{ scale: transformValue}],
-                        // width: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
-                        // height: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO),
-                        // borderRadius: Animated.multiply(variableWidth, PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2),
                     }]}
                     source={Images.person[this.props.person.photo]}
                     >
