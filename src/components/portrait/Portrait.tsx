@@ -15,7 +15,7 @@ import {
     PORTRAIT_ANIMATION_GROW_TIME,
     PORTRAIT_TEXT_MARGIN,
 } from "@config/Configuration";
-import { People } from "@src/components/manage/People";
+import { People } from "@types/People";
 import PortraitLine from "@src/components/portrait/PortraitLine";
 import { Images } from "@config/Images";
 

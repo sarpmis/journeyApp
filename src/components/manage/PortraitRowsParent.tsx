@@ -8,7 +8,7 @@ import {
 import { People } from "./People";
 import PortraitRow from "@src/components/manage/PortraitRow";
 import Portrait from "@src/components/portrait/Portrait";
-import { DummyPeople } from "@src/components/manage/DummyPeopleService";
+import { DummyPeople } from "@config/dummy_services/DummyPeopleService";
 import {
     PORTRAIT_WIDTH,
     PORTRAIT_ROW_HEIGHT,

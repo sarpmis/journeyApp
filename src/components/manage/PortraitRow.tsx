@@ -6,8 +6,8 @@ import {
     Dimensions,
     StyleSheet,
 } from "react-native";
+import { People } from "@types/People";
 import Portrait from "@src/components/portrait/Portrait";
-import { People } from "@src/components/manage/People";
 import PortraitLine from "@src/components/portrait/PortraitLine";
 
 interface Props {
