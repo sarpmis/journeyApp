@@ -15,16 +15,19 @@ import {
     PORTRAIT_ANIMATION_GROW_TIME,
     PORTRAIT_TEXT_MARGIN,
 } from "@config/Configuration";
-import { People } from "@src/components/People";
+import { People } from "@src/components/manage/People";
+import PortraitLine from "@src/components/portrait/PortraitLine";
 import { Images } from "@config/Images";
 
 interface Props {
     person: People;
     index: number;
     width: number;
-    onPress: any;
+    onPress?: any;
     height?: number;
     touchable?: boolean;
+    lineLeft?: boolean;
+    lineRight?: boolean;
 }
 
 export default class Portrait extends React.Component<Props> {
@@ -96,30 +99,37 @@ export default class Portrait extends React.Component<Props> {
             outputRange: [0, this.photoGrowthMargin],
         });
 
-        // const variableWidth = this.animated.interpolate({
-        //     inputRange: [0, 1],
-        //     outputRange: [this.props.width, this.props.width * PORTRAIT_IMAGE_GROW_SCALE],
-        // });
         return(
             <TouchableOpacity style={[styles.portraitContainer,
                 {
                     width: this.props.width,
                     height: this.props.height ? this.props.height : this.props.width,
                 }]}
-                onPress={this.onPress}
-                activeOpacity={this.props.touchable? (0.5) : (1)}>
-                <Animated.Image style={[styles.portraitCircle, styles.test,
-                    {
-                        width: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
-                        height: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
-                        borderRadius: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2,
-                        marginTop: this.photoGrowthMargin,
-                        // apply ratios
-                        transform: [{ scale: transformValue}],
-                    }]}
-                    source={Images.person[this.props.person.photo]}
-                    >
-                </Animated.Image>
+                onPress={this.props.onPress ? (this.onPress) : (() => {return;})}
+                activeOpacity={this.props.touchable ? (0.5) : (1)}>
+                <View style={{flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: this.props.width}}>
+                    <View style={styles.lineContainer} >
+                        {this.props.lineLeft ? (<PortraitLine axis="horizontal" />) : (null) }
+                    </View>
+                    <Animated.Image style={[styles.portraitCircle,
+                        {
+                            width: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
+                            height: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
+                            borderRadius: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2,
+                            marginTop: this.photoGrowthMargin / 2,
+                            marginBottom: this.photoGrowthMargin / 2,
+                            // apply ratios
+                            transform: [{ scale: transformValue}],
+                        }]}
+                        source={Images.person[this.props.person.photo]}
+                        />
+                    <View style={[styles.lineContainer, {flexDirection: "row-reverse"}]} >
+                        {this.props.lineRight ? (<PortraitLine axis="horizontal" />) : (null) }
+                    </View>
+                </View>
                 <Animated.View style={{transform: [{translateY: textAnimationY}]}}>
                 <Text style={styles.portraitTitleText}>
                     {this.props.person.name} {this.props.person.surname} </Text>
@@ -137,9 +147,6 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: "red",
     },
-    test: {
-        transform: [{ scale: 1.2}]
-    },
     portraitCircle: {
         // backgroundColor: "blue",
         borderColor: "white",
@@ -152,5 +159,10 @@ const styles = StyleSheet.create({
         fontSize: 10,
         lineHeight: 14,
         opacity: 0.6,
+    },
+    lineContainer: {
+        flex: 1,
+        // borderColor: "yellow",
+        // borderWidth: 1,
     },
 });

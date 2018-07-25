@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -6,8 +6,8 @@ import {
     Dimensions,
 } from "react-native";
 import { People } from "./People";
-import PortraitRow from "./PortraitRow";
-import Portrait from "./Portrait";
+import PortraitRow from "@src/components/manage/PortraitRow";
+import Portrait from "@src/components/portrait/Portrait";
 import { DummyPeople } from "@src/components/manage/DummyPeopleService";
 import {
     PORTRAIT_WIDTH,
@@ -21,18 +21,14 @@ import {
 const DEVICE_HEIGHT = Dimensions.get("window").height;
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
-interface Props {
-    something: any;
-}
-
 // TODO: TOUCHING ROOT PORTRAIT HIDES EVERYTHING
 
-export default class PortraitRows extends React.Component <Props> {
+export default class PortraitRowsParent extends React.Component <Props> {
     private rowStack: JSX.Element[];
     private rowCount: number;
     private totalRowCount: number; // to keep keys unique
 
-    constructor(props: Props) {
+    constructor(props: any) {
         super(props);
         // binds
         this.pushRoot = this.pushRoot.bind(this);
@@ -61,7 +57,7 @@ export default class PortraitRows extends React.Component <Props> {
                     index={-1}
                     width={ROOT_PORTRAIT_WIDTH}
                     height={ROOT_PORTRAIT_HEIGHT}
-                    onPress={this.popAndCreate}
+                    // onPress={this.popAndCreate}
                 />
             </View>,
         );

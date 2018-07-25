@@ -6,8 +6,9 @@ import {
     Dimensions,
     StyleSheet,
 } from "react-native";
-import Portrait from "./Portrait";
-import { People } from "./People";
+import Portrait from "@src/components/portrait/Portrait";
+import { People } from "@src/components/manage/People";
+import PortraitLine from "@src/components/portrait/PortraitLine";
 
 interface Props {
     index: number;
@@ -153,14 +154,15 @@ export default class PortraitRow extends React.Component <Props> {
                     touchable
                     key={i}
                     ref={(ref) => this.children[i] = ref}
+                    lineRight={i !== this.props.data.length - 1}
+                    lineLeft={i !== 0}
                 />,
             );
         }
 
         return(
             <View style={styles.parentContainer} >
-            <View style={styles.verticalLine}>
-            </View>
+            <PortraitLine axis="vertical" lean="start" showBorders/>
             <ScrollView
                 ref={(ref) => this.scrollView = ref}
                 horizontal
@@ -186,13 +188,6 @@ export default class PortraitRow extends React.Component <Props> {
 const styles = StyleSheet.create({
     extraSpace: {
         backgroundColor: "transparent",
-    },
-    verticalLine: {
-        width: 0,
-        borderWidth: 1,
-        borderColor: "white",
-        opacity: 0.6,
-        height: 30,
     },
     scrollViewContainer: {
         alignItems: "center",

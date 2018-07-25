@@ -16,7 +16,7 @@ export const MainNavigator = createStackNavigator(
     calendar: { screen: CalendarScreen }
   },
   {
-    initialRouteName: "calendar",
+    initialRouteName: "manage",
     headerMode: "none",
     // mode: "modal",
     navigationOptions: {
