@@ -16,6 +16,11 @@ interface Props {
 }
 
 export default class PortraitLine extends React.Component <Props> {
+
+    shouldComponentUpdate() {
+        return false;
+    }
+
     render() {
         return(
             <View style={[styles.portraitLine,

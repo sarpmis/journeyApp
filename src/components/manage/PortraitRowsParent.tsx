@@ -5,7 +5,7 @@ import {
     View,
     Dimensions,
 } from "react-native";
-import { People } from "./People";
+import { People } from "@types/People";
 import PortraitRow from "@src/components/manage/PortraitRow";
 import Portrait from "@src/components/portrait/Portrait";
 import { DummyPeople } from "@config/dummy_services/DummyPeopleService";

@@ -111,16 +111,20 @@ export default class PortraitRow extends React.Component <Props> {
     /****************************** CALLBACK FUNCTIONS ******************************/
     // we get portrait index and pers
     onPortraitPressed( personId: string, portraitIndex: number) {
-        // scroll to the index
-        this.scrollToIndex(portraitIndex, true);
         if (portraitIndex === this.middleIndex) {
             if (this.firstAction) {
-                this.enlargeMiddleChild();
                 this.firstAction = false;
+                this.enlargeMiddleChild();
+                this.props.onPortraitPressed(personId, this.props.index, true);
+            }
+        } else {
+            this.scrollToIndex(portraitIndex, true);
+            if (this.firstAction) {
+                this.firstAction = false;
+            } else {
+                this.props.onPortraitPressed(personId, this.props.index, false);
             }
         }
-        // callback to parent
-        this.props.onPortraitPressed(personId, this.props.index, (portraitIndex === this.middleIndex));
     }
 
     onScrollEnd() {
