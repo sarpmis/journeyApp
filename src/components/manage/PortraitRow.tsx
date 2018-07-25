@@ -86,7 +86,6 @@ export default class PortraitRow extends React.Component <Props> {
                 this.props.onMidChange(this.props.index);
             }
         }
-        console.log(this.middleIndex);
     }
 
     enlargeChild(index: number) {
@@ -102,9 +101,9 @@ export default class PortraitRow extends React.Component <Props> {
     }
 
     // scrolls and centers the portrait of the given index
-    scrollToIndex(index: number) {
+    scrollToIndex(index: number, animation: boolean) {
         if (this.scrollView !== null) {
-            this.scrollView.scrollTo({x: index * this.props.portraitWidth, animated: true});
+            this.scrollView.scrollTo({x: index * this.props.portraitWidth, animated: animation});
         }
     }
 
@@ -112,7 +111,7 @@ export default class PortraitRow extends React.Component <Props> {
     // we get portrait index and pers
     onPortraitPressed( personId: string, portraitIndex: number) {
         // scroll to the index
-        this.scrollToIndex(portraitIndex);
+        this.scrollToIndex(portraitIndex, true);
         if (portraitIndex === this.middleIndex) {
             if (this.firstAction) {
                 this.enlargeMiddleChild();
@@ -124,7 +123,7 @@ export default class PortraitRow extends React.Component <Props> {
     }
 
     onScrollEnd() {
-        this.scrollToIndex(this.middleIndex);
+        this.scrollToIndex(this.middleIndex, false);
         // callback to parent
         if (this.startingIndex !== this.middleIndex || this.firstAction) {
             this.props.onScrollEnd(this.children[this.middleIndex].getPerson().id, this.props.index, true);
@@ -174,7 +173,7 @@ export default class PortraitRow extends React.Component <Props> {
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.scrollViewContainer}
-                style={{  borderColor: "magenta", height: this.props.height } }>
+                style={{ height: this.props.height } }>
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
                 {listItems}
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />

@@ -25,6 +25,8 @@ interface Props {
     something: any;
 }
 
+// TODO: TOUCHING ROOT PORTRAIT HIDES EVERYTHING
+
 export default class PortraitRows extends React.Component <Props> {
     private rowStack: JSX.Element[];
     private rowCount: number;

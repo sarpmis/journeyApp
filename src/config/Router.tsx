@@ -3,18 +3,20 @@ import {
   Easing,
 } from "react-native";
 import { createBottomTabNavigator, createStackNavigator } from "react-navigation";
-import LoginScreen from "../screens/LoginScreen";
-import ManageScreen from "../screens/ManageScreen";
-import WelcomeScreen from "../screens/WelcomeScreen";
+import LoginScreen from "@src/screens/LoginScreen";
+import ManageScreen from "@src/screens/ManageScreen";
+import WelcomeScreen from "@src/screens/WelcomeScreen";
+import CalendarScreen from "@src/screens/CalendarScreen";
 
 export const MainNavigator = createStackNavigator(
   {
     welcome: { screen: WelcomeScreen },
     login: { screen: LoginScreen },
     manage: { screen: ManageScreen },
+    calendar: { screen: CalendarScreen }
   },
   {
-    initialRouteName: "manage",
+    initialRouteName: "calendar",
     headerMode: "none",
     // mode: "modal",
     navigationOptions: {
@@ -44,5 +46,5 @@ export const MainNavigator = createStackNavigator(
     //     return { opacity, transform: [{ translateY }] };
     //   },
     // }),
-  }
+  },
 );
