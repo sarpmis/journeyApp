@@ -5,20 +5,21 @@ import {
   Text,
   View,
 } from "react-native";
-
+import { NavigationScreenProps } from "react-navigation";
 // @ts-ignore
 import LoginButton from "@src/components/login/LoginButton";
 // @ts-ignore
 import LoginLogo from "@src/components/login/LoginLogo";
 // @ts-ignore
 import { logIn } from "@src/config/FBLogin";
-
-import { NavigationScreenProps } from "react-navigation";
+// @ts-ignore
+import LoginHeader from "@src/components/login/LoginHeader";
 
 class WelcomeScreen extends React.Component<NavigationScreenProps> {
 
   static navigationOptions = {
     tabBarVisible: false,
+    header: null,
   };
 
   goToLoginPage = () => {

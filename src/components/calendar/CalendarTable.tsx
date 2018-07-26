@@ -15,6 +15,7 @@ interface Props {
 
 export default class CalendarTable extends React.Component<Props> {
     render() {
+        console.log("Table")
         return(
             <View style={styles.tableContainer}>
                 <Text style={{ fontSize: 40, lineHeight: 40 }}> {this.props.number} </Text>

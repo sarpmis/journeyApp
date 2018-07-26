@@ -110,7 +110,8 @@ export default class Portrait extends React.Component<Props> {
                 <View style={{flexDirection: "row",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    width: this.props.width}}>
+                    width: this.props.width,
+                    marginTop: 20}}>
                     <View style={styles.lineContainer} >
                         {this.props.lineLeft ? (<PortraitLine axis="horizontal" />) : (null) }
                     </View>
@@ -119,8 +120,7 @@ export default class Portrait extends React.Component<Props> {
                             width: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
                             height: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO,
                             borderRadius: this.props.width * PORTRAIT_CIRCLE_TO_WIDTH_RATIO / 2,
-                            marginTop: this.photoGrowthMargin / 2,
-                            marginBottom: this.photoGrowthMargin / 2,
+                            marginTop: this.photoGrowthMargin,
                             // apply ratios
                             transform: [{ scale: transformValue}],
                         }]}
@@ -144,13 +144,13 @@ export default class Portrait extends React.Component<Props> {
 const styles = StyleSheet.create({
     portraitContainer: {
         alignItems: "center",
-        // borderWidth: 1,
-        // borderColor: "red",
+        borderWidth: 1,
+        borderColor: "red",
     },
     portraitCircle: {
         // backgroundColor: "blue",
         borderColor: "white",
-        borderWidth: 2,
+        borderWidth: 1,
     },
     portraitTitleText: {
         marginTop: PORTRAIT_TEXT_MARGIN,

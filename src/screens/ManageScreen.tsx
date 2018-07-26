@@ -3,10 +3,14 @@ import {
     View,
     StyleSheet,
 } from "react-native";
+import { LinearGradient } from "expo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+// @ts-ignore
 import * as Actions from "@src/redux/actions/action";
+// @ts-ignore
 import PortraitRowsParent from "@src/components/manage/PortraitRowsParent";
+import MainHeader from "@src/components/navbar/MainHeader";
 
 interface Props {
     navigation: any;
@@ -16,12 +20,17 @@ interface Props {
 class ManageScreen extends React.Component<Props> {
     static navigationOptions = {
         tabBarVisible: false,
+        header: <MainHeader/>,
       };
 
     render() {
         return(
-            <View style={styles.manageScreenBackground}>
-                <PortraitRowsParent />
+            <View style={StyleSheet.absoluteFillObject}>
+                <View style={styles.manageScreenBackground}>
+                    <LinearGradient colors={["#1A1D1F", "#40484D"]}>
+                        <PortraitRowsParent />
+                    </LinearGradient>
+                </View>
             </View>
         );
     }

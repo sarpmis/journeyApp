@@ -39,28 +39,34 @@ class LoginInput extends React.Component<Props, State> {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onUsernameChange(input: string): void {
+    shouldComponentUpdate() {
+        return false;
+    }
+
+    onUsernameChange(input: string) {
         this.props.setUsername(input);
     }
 
-    onPasswordChange(input: string): void {
+    onPasswordChange(input: string) {
         this.props.setPassword(input);
     }
 
     // Used for sending credentials to the login button
-    onSubmit(): any {
+    onSubmit() {
         return {
             username: this.props.username,
         };
     }
 
-    render(): JSX.Element {
+    render() {
+        console.log("LoginInput");
         return(
             <View style={styles.loginInputContainer}>
                 <View style={styles.loginTextContainer}>
                     <Ionicons name="ios-person-outline" size={25} color="white" style={styles.loginUserIcon} />
                     <TextInput
                         style={styles.loginInput}
+                        underlineColorAndroid="transparent"
                         placeholder="username"
                         placeholderTextColor="rgba(255,255,255,0.8)"
                         autoCapitalize = "none"
@@ -71,6 +77,7 @@ class LoginInput extends React.Component<Props, State> {
                     <Ionicons name="ios-lock-outline" size={20} color="white" style={styles.loginUserIcon} />
                     <TextInput
                         style={styles.loginInput}
+                        underlineColorAndroid="transparent"
                         placeholder="password"
                         placeholderTextColor="rgba(255,255,255,0.8)"
                         autoCapitalize = "none"

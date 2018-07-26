@@ -2,33 +2,36 @@ import React from "react";
 import {
     Image,
     StyleSheet,
-    Text,
-    TouchableOpacity,
     View,
+    TouchableOpacity,
+    Text,
 } from "react-native";
 import {
     TOP_NAVBAR_HEIGHT,
-    // @ts-ignore
 } from "@config/Configuration";
 
-interface LoginHeaderProps {
+interface Props {
     navigation: any;
 }
 
-const LoginHeader: React.SFC<LoginHeaderProps> = ({ navigation }) => (
-    <View style={styles.headerContainer}>
-        <TouchableOpacity
-            style={styles.headerLeftContainer}
-            onPress={() => navigation.goBack()} >
-            <Image source={require("../../../assets/back_icon.png")} style={styles.loginPageBackIcon} />
-        </TouchableOpacity>
-        <View style={styles.headerMidContainer}>
-            <Text style={{fontSize: 18, lineHeight: 25, opacity: 0.8}}>Login</Text>
-        </View>
-        <View style={styles.headerRightContainer}>
-        </View>
-    </View>
-);
+export default class MainHeader extends React.Component<Props>{
+    render() {
+        return(
+            <View style={styles.headerContainer}>
+                <TouchableOpacity
+                    style={styles.headerLeftContainer}
+                    onPress={() => this.props.navigation.goBack()} >
+                    <Image source={require("../../../assets/back_icon.png")} style={styles.loginPageBackIcon} />
+                </TouchableOpacity>
+                <View style={styles.headerMidContainer}>
+                    <Text style={{fontSize: 18, lineHeight: 25, opacity: 0.8}}>Login</Text>
+                </View>
+                <View style={styles.headerRightContainer}>
+                </View>
+            </View>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     headerContainer: {
@@ -38,10 +41,6 @@ const styles = StyleSheet.create({
         height: TOP_NAVBAR_HEIGHT,
         paddingBottom: 10,
         paddingTop: 25,
-        // position: "absolute",
-        // top: 0,
-        // left: 0,
-        // right: 0,
         // borderColor: 'red',
         // borderWidth: 1
     },
@@ -76,5 +75,3 @@ const styles = StyleSheet.create({
         maxWidth: 40,
     },
 });
-
-export default LoginHeader;

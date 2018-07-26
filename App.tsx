@@ -4,7 +4,7 @@ import { AppLoading } from "expo";
 // @ts-ignore
 import store from "@redux/store";
 // @ts-ignore
-import { MainNavigator } from "@config/Router";
+import { LoginNavigator, MainNavigator } from "@config/Router";
 // @ts-ignore
 import setGlobals from "@config/Globals";
 // @ts-ignore
@@ -58,6 +58,7 @@ export default class App extends React.Component<State> {
         return (
             <Provider store={store}>
                 <MainNavigator />
+                {/* <LoginNavigator /> */}
             </Provider>
         );
     }

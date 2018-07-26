@@ -5,6 +5,7 @@ import {
     View,
     Dimensions,
     StyleSheet,
+    Platform,
 } from "react-native";
 import { People } from "@types/People";
 import Portrait from "@src/components/portrait/Portrait";
@@ -109,7 +110,6 @@ export default class PortraitRow extends React.Component <Props> {
     }
 
     /****************************** CALLBACK FUNCTIONS ******************************/
-    // we get portrait index and pers
     onPortraitPressed( personId: string, portraitIndex: number) {
         if (portraitIndex === this.middleIndex) {
             if (this.firstAction) {
@@ -128,7 +128,7 @@ export default class PortraitRow extends React.Component <Props> {
     }
 
     onScrollEnd() {
-        this.scrollToIndex(this.middleIndex, false);
+        // this.scrollToIndex(this.middleIndex, false);
         // callback to parent
         if (this.startingIndex !== this.middleIndex || this.firstAction) {
             this.props.onScrollEnd(this.children[this.middleIndex].getPerson().id, this.props.index, true);
@@ -154,6 +154,7 @@ export default class PortraitRow extends React.Component <Props> {
                     person={arr[i]}
                     index={i}
                     width={this.props.portraitWidth}
+                    height={this.props.height ? (this.props.height) : (this.props.portraitWidth)}
                     onPress={this.onPortraitPressed}
                     touchable
                     key={i}
@@ -179,7 +180,8 @@ export default class PortraitRow extends React.Component <Props> {
                 decelerationRate={0.7}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.scrollViewContainer}
-                style={{ height: this.props.height } }>
+                style={{ height: this.props.height }}
+                pagingEnabled={Platform.OS === "android"}>
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
                 {listItems}
                 <View style={[styles.extraSpace, {width: this.extraSpaceWidth, height: this.props.portraitWidth }]} />
@@ -195,12 +197,14 @@ const styles = StyleSheet.create({
     },
     scrollViewContainer: {
         alignItems: "center",
+        justifyContent: "center",
         // borderColor: "blue",
         // borderWidth: 1,
     },
     parentContainer: {
         alignItems: "center",
-        // borderColor: "yellow",
-        // borderWidth: 1,
+        justifyContent: "center",
+        borderColor: "yellow",
+        borderWidth: 1,
     },
 });

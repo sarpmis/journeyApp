@@ -27,26 +27,17 @@ import {
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const DEVICE_HEIGHT = Dimensions.get("window").height;
 
-class LoginScreen extends React.Component<NavigationScreenProps> {
+export default class LoginScreen extends React.Component<NavigationScreenProps> {
   static navigationOptions = {
     tabBarVisible: false,
   };
 
-  vid: any;
   constructor(props: any){
     super(props);
-    this.setVideoRef = this.setVideoRef.bind(this);
-  }
-
-  setVideoRef(ref: any) {
-    this.vid = ref;
-  }
-
-  componentDidMount() {
-    this.vid.pauseAsync();
   }
 
   render() {
+    console.log("LoginScreen");
     return(
       <View style={styles.mainContainer}>
         <View style={styles.background}>
@@ -58,13 +49,12 @@ class LoginScreen extends React.Component<NavigationScreenProps> {
           shouldPlay
           isLooping={true}
           style={{ width: DEVICE_WIDTH, height: DEVICE_HEIGHT }}
-          ref={this.setVideoRef}
           />
         </View>
         <View style={styles.overlay}>
           <LoginHeader navigation={this.props.navigation} />
           <TouchableWithoutFeedback style={
-            {flex: 1}} onPress={ () => { Keyboard.dismiss(); } }>
+            {flex: 1}} onPress={ Keyboard.dismiss }>
             <View style={{flex: 1}}>
                 <KeyboardAvoidingView
                       style={styles.loginRowContainer}
@@ -124,5 +114,3 @@ const styles = StyleSheet.create({
     // borderColor: "green", borderWidth: 1,
   },
 });
-
-export default LoginScreen;

@@ -50,7 +50,7 @@ export default class LoginButton  extends React.Component<Props, State> {
 
         setTimeout(() => {
             service.checkUser(this.props.onPressFunction().username, "no password checks yet")
-                .then((user: any) => this.props.navigation.navigate("manage"))
+                .then((user: any) => this.props.navigation.navigate("main"))
                 .catch((error: any) => {
                     this.setState({ errorLoading: true, isLoading: false });
                     this.buttonAnimated.setValue(0);
