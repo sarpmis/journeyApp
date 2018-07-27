@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     parentContainer: {
         alignItems: "center",
         justifyContent: "center",
-        borderColor: "yellow",
-        borderWidth: 1,
+        // borderColor: "yellow",
+        // borderWidth: 1,
     },
 });

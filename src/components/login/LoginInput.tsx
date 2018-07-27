@@ -9,11 +9,13 @@ import {
     TextInput,
     View,
 } from "react-native";
-// Redux
+// Redux stuff
+// @ts-ignore
 import * as Actions from "@src/redux/actions/action";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 // Custom types
+// @ts-ignore
 import * as Types from "@config/Types";
 
 interface Props {
@@ -59,7 +61,6 @@ class LoginInput extends React.Component<Props, State> {
     }
 
     render() {
-        console.log("LoginInput");
         return(
             <View style={styles.loginInputContainer}>
                 <View style={styles.loginTextContainer}>

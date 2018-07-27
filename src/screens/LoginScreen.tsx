@@ -12,9 +12,12 @@ import {
 import { Video } from "expo";
 
 import { NavigationScreenProps } from "react-navigation";
-import LoginHeader from "../components/login/LoginHeader";
-import LoginInput from "../components/login/LoginInput";
-import LoginLogo from "../components/login/LoginLogo";
+// @ts-ignore
+import LoginHeader from "@src/components/login/LoginHeader";
+// @ts-ignore
+import LoginInput from "@src/components/login/LoginInput";
+// @ts-ignore
+import LoginLogo from "@src/components/login/LoginLogo";
 import {
   TOP_NAVBAR_HEIGHT,
   // @ts-ignore
@@ -37,7 +40,7 @@ export default class LoginScreen extends React.Component<NavigationScreenProps> 
   }
 
   render() {
-    console.log("LoginScreen");
+    // TODO: ADD POSTER TO VIDEO
     return(
       <View style={styles.mainContainer}>
         <View style={styles.background}>

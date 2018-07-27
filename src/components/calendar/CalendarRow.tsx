@@ -91,7 +91,6 @@ export default class CalendarRow extends React.Component {
             temp = 2;
         }
 
-        // console.log(temp);
         // if middle index changed
         if (temp === 2) {
             this.shouldAddRight = true;
@@ -116,7 +115,6 @@ export default class CalendarRow extends React.Component {
     }
 
     render() {
-        console.log("Row");
         return(
             <View style={styles.parentContainer}>
             <ScrollView

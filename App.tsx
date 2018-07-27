@@ -10,12 +10,13 @@ import setGlobals from "@config/Globals";
 // @ts-ignore
 import { cacheBackgroundImages, cachePortraitImages } from "@config/Images";
 
+// Function to simulate load on the JS thread. Used to test if animations on the
+// native thread work as expected, or simulate a low-end device performance.
 const runCPUburner = () => {
     const timestamp = Date.now() + 160;
     while (Date.now() < timestamp) {};
     requestAnimationFrame(runCPUburner);
 };
-
 // runCPUburner();
 
 interface State {
@@ -34,6 +35,7 @@ export default class App extends React.Component<State> {
         this.initApp = this.initApp.bind(this);
     }
 
+    // cache assets for faster load speed and low bandwith usage
     async loadAssetsAsync() {
         const backgrounds = cacheBackgroundImages();
         const portraits = cachePortraitImages();
@@ -48,6 +50,7 @@ export default class App extends React.Component<State> {
     render() {
         if (!this.state.isReady) {
             return(
+                // show loading screen until all assets are loaded
                 <AppLoading
                     startAsync={this.initApp}
                     onFinish={() => this.setState({ isReady: true })}
@@ -57,8 +60,7 @@ export default class App extends React.Component<State> {
         }
         return (
             <Provider store={store}>
-                <MainNavigator />
-                {/* <LoginNavigator /> */}
+                <LoginNavigator />
             </Provider>
         );
     }

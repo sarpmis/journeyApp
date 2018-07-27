@@ -10,6 +10,7 @@ import { bindActionCreators } from "redux";
 import * as Actions from "@src/redux/actions/action";
 // @ts-ignore
 import PortraitRowsParent from "@src/components/manage/PortraitRowsParent";
+// @ts-ignore
 import MainHeader from "@src/components/navbar/MainHeader";
 
 interface Props {
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state: any, props: any) {
     return {
         username: state.loginReducer.username,
-    }
+    };
 }
 
 // Doing this merges our actions into the component’s props,

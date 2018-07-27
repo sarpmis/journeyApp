@@ -4,11 +4,17 @@ import {
   Easing,
 } from "react-native";
 import { createBottomTabNavigator, createStackNavigator } from "react-navigation";
+// @ts-ignore
 import LoginScreen from "@src/screens/LoginScreen";
+// @ts-ignore
 import ManageScreen from "@src/screens/ManageScreen";
+// @ts-ignore
 import WelcomeScreen from "@src/screens/WelcomeScreen";
+// @ts-ignore
 import CalendarScreen from "@src/screens/CalendarScreen";
+// @ts-ignore
 import MainHeader from "@src/components/navbar/MainHeader";
+// @ts-ignore
 import LoginHeader from "@src/components/login/LoginHeader";
 
 export const MainNavigator = createBottomTabNavigator(
@@ -17,7 +23,7 @@ export const MainNavigator = createBottomTabNavigator(
     calendar: { screen: CalendarScreen }
   },
   {
-    initialRouteName: "calendar",
+    initialRouteName: "manage",
     // headerMode: "float",
     // mode: "modal",
     navigationOptions: {
@@ -41,6 +47,8 @@ export const LoginNavigator = createStackNavigator(
     },
   },
 );
+
+// TRANSITION ANIMATIONS CONTROLLED LIKE THIS
 
 // transitionConfig: () => ({
 //   transitionSpec: {

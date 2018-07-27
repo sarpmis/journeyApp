@@ -38,10 +38,6 @@ const styles = StyleSheet.create({
         height: TOP_NAVBAR_HEIGHT,
         paddingBottom: 10,
         paddingTop: 25,
-        // position: "absolute",
-        // top: 0,
-        // left: 0,
-        // right: 0,
         // borderColor: 'red',
         // borderWidth: 1
     },

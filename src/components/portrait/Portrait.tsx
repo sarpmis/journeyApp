@@ -14,19 +14,23 @@ import {
     PORTRAIT_ANIMATION_SHRINK_TIME,
     PORTRAIT_ANIMATION_GROW_TIME,
     PORTRAIT_TEXT_MARGIN,
+    // @ts-ignore
 } from "@config/Configuration";
+// @ts-ignore
 import { People } from "@types/People";
+// @ts-ignore
 import PortraitLine from "@src/components/portrait/PortraitLine";
+// @ts-ignore
 import { Images } from "@config/Images";
 
 interface Props {
     person: People;
     index: number;
-    width: number;
-    onPress?: any;
-    height?: number;
+    width: number; // container width. picture width is a ratio of this
+    onPress?: any; // optional onPress callback
+    height?: number; // height=width if height not specified
     touchable?: boolean;
-    lineLeft?: boolean;
+    lineLeft?: boolean; // optional lines on sides
     lineRight?: boolean;
 }
 
@@ -144,8 +148,8 @@ export default class Portrait extends React.Component<Props> {
 const styles = StyleSheet.create({
     portraitContainer: {
         alignItems: "center",
-        borderWidth: 1,
-        borderColor: "red",
+        // borderWidth: 1,
+        // borderColor: "red",
     },
     portraitCircle: {
         // backgroundColor: "blue",

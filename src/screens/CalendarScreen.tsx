@@ -3,9 +3,11 @@ import {
     View,
     StyleSheet,
 } from "react-native";
+// @ts-ignore
 import CalendarRow from "@src/components/calendar/CalendarRow";
-import CalendarTable from "@src/components/calendar/CalendarTable";
 
+// Barebones for Calendar functionality. Uses very(!) naive method for
+// two-way infinite scroll.
 export default class CalendarScreen extends React.Component {
 
     render() {
